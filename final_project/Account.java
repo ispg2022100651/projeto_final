@@ -1,9 +1,11 @@
 package final_project;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Account {
+public class Account implements Serializable {
+    private static final long serialVersionUID = 1L;
     private int accountNumber;
     private double balance;
     private List<Transaction> transactions;

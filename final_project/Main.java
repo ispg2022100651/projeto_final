@@ -1,25 +1,34 @@
 package final_project;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        // Create an account
-        Account account = new Account(12345, 1000.0);
+        // Create accounts
+        Account account1 = new Account(12345, 1000.0);
+        Account account2 = new Account(67890, 2000.0);
 
-        // Create fixed transactions
-        FixedExpense fixedExpense = new FixedExpense(100, "Internet", new Date(), "Provider X", "Monthly", 30);
-        FixedIncome fixedIncome = new FixedIncome(2000, "Salary", new Date(), "Company Y", "Monthly", 30);
 
-        // Add transactions to the account
-        account.addTransaction(fixedExpense);
-        account.addTransaction(fixedIncome);
+        // Create a list of accounts
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(account1);
+        accounts.add(account2);
 
-        // Display balance and transactions
-        System.out.println("Current balance: " + account.getBalance());
-        for (Transaction transaction : account.getTransactions()) {
-            transaction.print();
+
+        // Load accounts from file
+        List<Account> loadedAccounts = FileManager.loadAccounts("accounts.ser");
+
+        // Display loaded accounts
+        if (loadedAccounts != null) {
+            for (Account account : loadedAccounts) {
+                System.out.println("Account Number: " + account.getAccountNumber());
+                System.out.println("Balance: " + account.getBalance());
+                for (Transaction transaction : account.getTransactions()) {
+                    System.out.println("Transaction: " + transaction.getDescription() + ", Amount: " + transaction.getAmount() + ", Date: " + transaction.getDate());
+                }
+            }
         }
-        
     }   
 }
