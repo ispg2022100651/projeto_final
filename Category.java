@@ -1,4 +1,4 @@
-package final_project;
+package projeto_final;
 
 public class Category {
     private String name;

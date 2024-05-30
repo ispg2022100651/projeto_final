@@ -1,4 +1,4 @@
-package final_project;
+package projeto_final;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,15 +6,13 @@ import java.util.List;
 public class Account {
     private int accountNumber;
     private double balance;
-    private String name;
     private List<Transaction> transactions;
 
     public Account() {
         this("",0, 0.0);
     }
     
-    public Account(String name, int accountNumber, double balance) {
-        this.name = name;
+    public Account(int accountNumber, double balance) {
         this.accountNumber = accountNumber;
         this.balance = balance;
         this.transactions = new ArrayList<>();

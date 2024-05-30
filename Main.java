@@ -1,11 +1,11 @@
-package final_project;
+package projeto_final;
 
 import java.util.Date;
 
 public class Main {
     public static void main(String[] args) {
         // Create an account
-        Account account = new Account("Daniel",12345, 1000.0);
+        Account account = new Account(12345, 1000.0);
 
         // Create fixed transactions
         FixedExpense fixedExpense = new FixedExpense(100, "Internet", new Date(), "Provider X", "Monthly", 30);

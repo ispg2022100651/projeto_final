@@ -1,4 +1,4 @@
-package final_project;
+package projeto_final;
 
 public class User {
     private String name;
