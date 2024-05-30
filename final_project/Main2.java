@@ -36,12 +36,6 @@ public class Main2 {
         System.out.println("Enter account number:");
         int accountNumber = scanner.nextInt();
 
-        // Check if account number already exists
-        if (FileManager.accountExists(accountNumber)) {
-            System.out.println("Conta já existe. Por favor, escolha um número de conta diferente.");
-            return;
-        }
-
         System.out.println("Enter initial balance:");
         double initialBalance = scanner.nextDouble();
 
