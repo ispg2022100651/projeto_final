@@ -22,4 +22,9 @@ public class Category implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    public void print() {
+        System.out.println("Category details:"
+                        + "\nName: " + this.name );
+    }
 }

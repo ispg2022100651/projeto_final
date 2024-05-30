@@ -35,6 +35,17 @@ public class FileManager {
             return null;
         }
     }
+
+    public boolean checkAccount(Account account) {
+        Account acc = loadAccount(account.getAccountNumber());
+        
+
+        if (acc == null) {
+            return false;
+        } else {
+            return true;
+        }
+    }
     
     // public static void saveAccounts(List<Account> accounts, String filename) {
     //     for (Account account : accounts) {
