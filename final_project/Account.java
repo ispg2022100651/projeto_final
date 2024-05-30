@@ -23,11 +23,7 @@ public class Account implements Serializable {
     // Methods to add transactions
     public void addTransaction(Transaction transaction) {
         this.transactions.add(transaction);
-        if (transaction instanceof Expense) {
-            this.balance -= transaction.getAmount();
-        } else if (transaction instanceof Income) {
-            this.balance += transaction.getAmount();
-        }
+        FileManager.executeTransaction(transaction, this);
     }
 
     // Getters and Setters

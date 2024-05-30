@@ -1,6 +1,7 @@
 package final_project;
 
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FileManager {
@@ -88,4 +89,53 @@ public class FileManager {
     //         return new ArrayList<>();
     //     }
     // }
+
+        // if (transaction instanceof Expense) {
+        //     this.balance -= transaction.getAmount();
+        // } else if (transaction instanceof Income) {
+        //     this.balance += transaction.getAmount();
+        // }
+
+    public static void executeTransaction(Transaction transaction, Account account) {
+        // Construct the full path
+        String fullPath = "final_project/database/accounts/accounts_"+account.getAccountNumber();
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fullPath))) {
+            Object obj = ois.readObject();
+            if (obj instanceof Account) {
+                if (transaction instanceof Expense) {
+                    account.setBalance( account.getBalance() - transaction.getAmount() );
+                } else if (transaction instanceof Income) {
+                    account.setBalance( account.getBalance() + transaction.getAmount() );
+                }
+            }
+            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fullPath))) {
+                oos.writeObject(account); // Serialize individual account, not the whole list
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    public static List<Account> loadAccounts(String filename) {
+        // Construct the full path
+        String fullPath = "final_project/database/accounts/" + filename;
+
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fullPath))) {
+            Object obj = ois.readObject();
+            if (obj instanceof List<?>) {
+                List<?> list = (List<?>) obj;
+                if (list.isEmpty() || list.get(0) instanceof Account) {
+                    return new ArrayList<>((List<Account>) list);
+                }
+            }
+            return new ArrayList<>(); // Return an empty list if type check fails
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            return new ArrayList<>();
+        }
+    }
 }

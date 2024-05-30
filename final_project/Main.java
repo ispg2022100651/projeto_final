@@ -26,10 +26,13 @@ public class Main {
         // Save accounts to file in the "database" folder
         FileManager.saveAccounts(accounts);
 
+        Transaction tr = new Income(120.00,"basebol",new Date(),"work");
+
+        account1.addTransaction(tr);
 
         // Load account by account number
         Account loadedAccount = FileManager.loadAccount(account1.getAccountNumber());
-        
+
         // Display loaded account
         if (loadedAccount != null) {
             loadedAccount.print();
