@@ -1,8 +1,10 @@
 package final_project;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class Transaction {
+public class Transaction implements Serializable {
+    private static final long serialVersionUID = 1L;
     private double amount;
     private String description;
     private Date date;

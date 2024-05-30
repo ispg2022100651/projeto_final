@@ -10,25 +10,31 @@ public class Main {
         Account account1 = new Account(12345, 1000.0);
         Account account2 = new Account(67890, 2000.0);
 
+        // Create transactions
+        FixedExpense fixedExpense = new FixedExpense(100, "Internet", new Date(), "Provider X", "Monthly", 30);
+        FixedIncome fixedIncome = new FixedIncome(2000, "Salary", new Date(), "Company Y", "Monthly", 30);
+
+        // Add transactions to accounts
+        account1.addTransaction(fixedExpense);
+        account1.addTransaction(fixedIncome);
 
         // Create a list of accounts
         List<Account> accounts = new ArrayList<>();
         accounts.add(account1);
         accounts.add(account2);
 
+        // Save accounts to file in the "database" folder
+        FileManager.saveAccounts(accounts);
 
-        // Load accounts from file
-        List<Account> loadedAccounts = FileManager.loadAccounts("accounts.ser");
 
-        // Display loaded accounts
-        if (loadedAccounts != null) {
-            for (Account account : loadedAccounts) {
-                System.out.println("Account Number: " + account.getAccountNumber());
-                System.out.println("Balance: " + account.getBalance());
-                for (Transaction transaction : account.getTransactions()) {
-                    System.out.println("Transaction: " + transaction.getDescription() + ", Amount: " + transaction.getAmount() + ", Date: " + transaction.getDate());
-                }
-            }
+        // Load account by account number
+        Account loadedAccount = FileManager.loadAccount(account1.getAccountNumber());
+        
+        // Display loaded account
+        if (loadedAccount != null) {
+            loadedAccount.print();
+        } else {
+            System.out.println("Failed to load account.");
         }
     }   
 }

@@ -1,9 +1,8 @@
 package final_project;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class Expense extends Transaction implements Serializable {
+public class Expense extends Transaction {
     private static final long serialVersionUID = 1L;
     private String destination;
 

@@ -54,4 +54,10 @@ public class Account implements Serializable {
     public void setTransactions(List<Transaction> transactions) {
         this.transactions = transactions;
     }
+
+    public void print() {
+        System.out.println("Transaction details:"
+                        + "\nAccount Number: " + this.accountNumber + "\n"
+                        + "Balance: " + this.balance);
+    }
 }
