@@ -1,66 +1,84 @@
 package final_project;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-// Interface Gráfica
-import javax.swing.*;
-import java.awt.*;
-import java.text.SimpleDateFormat;
+import java.util.Scanner;
 
-public class Main2
-{
+public class Main2 {
     public static void main(String[] args) {
-        // Create an account
-        Account account = new Account(12345, 1000.0);
-
-        // Create fixed transactions
-        FixedExpense fixedExpense = new FixedExpense(100, "Internet", new Date(), "Provider X", "Monthly", 30);
-        FixedIncome fixedIncome = new FixedIncome(2000, "Salary", new Date(), "Company Y", "Monthly", 30);
-
-        // Add transactions to the account
-        account.addTransaction(fixedExpense);
-        account.addTransaction(fixedIncome);
-
-        // Create the GUI
-        createAndShowGUI(account);
-    }
-
-    private static void createAndShowGUI(Account account)
-    {
-        // Window
-        JFrame frame = new JFrame("Account Information");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(400, 300);
-        frame.setLayout(new GridLayout(3, 2));
-        // Current Balance
-        JLabel balanceLabel = new JLabel("Current Balance:");
-        JTextField balanceField = new JTextField(account.getBalance() + " €");
-        balanceField.setEditable(false);
+        Scanner scanner = new Scanner(System.in);
         
-        frame.add(balanceLabel);
-        frame.add(balanceField);
-        // Transactions
-        JLabel transactionLabel = new JLabel("Transactions:");
-        frame.add(transactionLabel);
+        // Menu principal
+        System.out.println("Bem-vindo ao sistema de contas!");
+        System.out.println("Escolha uma opção:");
+        System.out.println("1. Criar nova conta");
+        System.out.println("2. Carregar conta existente");
+        System.out.print("Opção: ");
+        int option = scanner.nextInt();
+        
+        switch (option) {
+            case 1:
+                createNewAccount(scanner);
+                break;
+            case 2:
+                loadExistingAccount(scanner);
+                break;
+            default:
+                System.out.println("Opção inválida.");
+        }
+        
+        scanner.close();
+    }   
+    
+    private static void createNewAccount(Scanner scanner) {
+        // Get account details from user
+        System.out.println("Enter account number:");
+        int accountNumber = scanner.nextInt();
 
-        JTextArea transactionArea = new JTextArea();
-        transactionArea.setEditable(false);
-        transactionArea.setLineWrap(true); // permitindo quebras de linha
-        transactionArea.setWrapStyleWord(true); // quebrando apenas entre palavras completas
-        transactionArea.setPreferredSize(new Dimension(200, transactionArea.getFontMetrics(transactionArea.getFont()).getHeight())); // ajustando a altura para uma linha
-        SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
-        for (Transaction transaction : account.getTransactions())
-        {
-            String transactionInfo = "Transaction: " + transaction.getDescription() + ", Amount: $" + transaction.getAmount() + ", Date: " + dateFormat.format(transaction.getDate()) + "\n";
-            transactionArea.append(transactionInfo);
+        // Check if account number already exists
+        if (FileManager.accountExists(accountNumber)) {
+            System.out.println("Conta já existe. Por favor, escolha um número de conta diferente.");
+            return;
         }
 
-        JScrollPane scrollPane = new JScrollPane(transactionArea);
-        frame.add(scrollPane);
+        System.out.println("Enter initial balance:");
+        double initialBalance = scanner.nextDouble();
 
-        frame.setVisible(true);
+        // Create account
+        Account account = new Account(accountNumber, initialBalance);
+
+        // Get transaction details from user
+        System.out.println("Enter expense amount:");
+        double expenseAmount = scanner.nextDouble();
+        System.out.println("Enter expense description:");
+        String expenseDescription = scanner.next();
+        // You can add more inputs for other fields of FixedExpense
+
+        // Create transaction
+        FixedExpense fixedExpense = new FixedExpense(expenseAmount, expenseDescription, new Date(), "Provider X", "Monthly", 30);
+
+        // Add transaction to account
+        account.addTransaction(fixedExpense);
+
+        // Save account to file in the "database" folder
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(account);
+        FileManager.saveAccounts(accounts);
+    }
+    
+    private static void loadExistingAccount(Scanner scanner) {
+        System.out.println("Enter account number to load:");
+        int accountNumber = scanner.nextInt();
+        
+        // Load account by account number
+        Account loadedAccount = FileManager.loadAccount(accountNumber);
+        
+        // Display loaded account
+        if (loadedAccount != null) {
+            loadedAccount.print();
+        } else {
+            System.out.println("Failed to load account.");
+        }
     }
 }
