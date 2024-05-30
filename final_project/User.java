@@ -1,6 +1,8 @@
 package final_project;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 public class User implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -8,6 +10,7 @@ public class User implements Serializable {
     private String email;
     private String password;
     private int cc;
+    private ArrayList<Integer> account_number;
 
     public User() {
         this("", "", "", 0);
@@ -18,6 +21,15 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.cc = cc;
+    }
+
+    public void addAccount(Account acc) {
+        this.account_number.add(acc.getAccountNumber());
+
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(acc);
+
+        FileManager.saveAccounts(accounts);
     }
 
     // Getters and Setters
