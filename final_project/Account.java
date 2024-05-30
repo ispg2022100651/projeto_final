@@ -1,4 +1,4 @@
-package projeto_final;
+package final_project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ public class Account {
     private List<Transaction> transactions;
 
     public Account() {
-        this("",0, 0.0);
+        this(0, 0.0);
     }
     
     public Account(int accountNumber, double balance) {
