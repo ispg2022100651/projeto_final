@@ -2,7 +2,7 @@ package final_project;
 
 import java.util.Date;
 
-public class FixedExpense extends Expense {
+public class FixedExpense extends Expense implements FixedInterface{
     private String type; // e.g., week, day, month
     private int frequency; // in days
 
