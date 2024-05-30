@@ -21,6 +21,7 @@ public class User implements Serializable {
         this.email = email;
         this.password = password;
         this.cc = cc;
+        this.account_number = new ArrayList<>();
     }
 
     public void addAccount(Account acc) {
