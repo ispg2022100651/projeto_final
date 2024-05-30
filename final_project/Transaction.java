@@ -50,7 +50,7 @@ public class Transaction implements Serializable {
     
     public void print() {
         System.out.println("Transaction details:"
-                        + "\nAmount: " + this.amount + "\n"
+                        + "\nAmount: " + this.amount + "€\n"
                         + "Description: " + this.description + "\n"
                         + "Date: " + this.date);
     }
@@ -66,7 +66,7 @@ public class Transaction implements Serializable {
     
     @Override
     public String toString() {
-        return "Amount: " + this.amount + "\n"
+        return "Amount: " + this.amount + "€\n"
                 + "Description: " + this.description + "\n"
                 + "Date" + this.date + ".";
     }

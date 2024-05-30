@@ -27,7 +27,7 @@ public class Expense extends Transaction {
     @Override 
     public void print() {
         System.out.println("Transaction details:"
-                        + "\nAmount: " + super.getAmount() + "\n"
+                        + "\nAmount: " + super.getAmount() + "€\n"
                         + "Description: " + super.getDescription() + "\n"
                         + "Date: " + super.getDate() + "\n"
                         + "\nDestination: " + this.destination);
