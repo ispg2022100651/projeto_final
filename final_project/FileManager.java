@@ -7,22 +7,26 @@ public class FileManager {
 
     public static void saveAccounts(List<Account> accounts) {
         for (Account account : accounts) {
-            Account acc = loadAccount(account.getAccountNumber());
-            boolean length = String.valueOf(account.getAccountNumber()).length() != 9;
+            try {
+                Account acc = loadAccount(account.getAccountNumber());
+                boolean length = String.valueOf(account.getAccountNumber()).length() != 9;
 
-            if (acc == null && length) {
-                int accountNumber = account.getAccountNumber();
-                
-                // Construct the full path
-                String fullPath = "final_project/database/accounts/accounts_" + accountNumber;
-    
-                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fullPath))) {
-                    oos.writeObject(account); // Serialize individual account, not the whole list
-                } catch (IOException e) {
-                    e.printStackTrace();
+                if (acc == null && length) {
+                    int accountNumber = account.getAccountNumber();
+                    
+                    // Construct the full path
+                    String fullPath = "final_project/database/accounts/accounts_" + accountNumber;
+        
+                    try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fullPath))) {
+                        oos.writeObject(account); // Serialize individual account, not the whole list
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    throw new AccountAlreadyExistsException("Account with number " + account.getAccountNumber() + " already exists.");
                 }
-            } else {
-                System.out.println("There are already an account with this number!");
+            } catch (AccountAlreadyExistsException e) {
+                e.printStackTrace();
             }
         }
     }
@@ -43,7 +47,11 @@ public class FileManager {
         }
     }
     
-        
+    public static class AccountAlreadyExistsException extends Exception {
+        public AccountAlreadyExistsException(String message) {
+            super(message);
+        }
+    }
 
     // public static void saveAccounts(List<Account> accounts, String filename) {
     //     for (Account account : accounts) {
