@@ -7,15 +7,20 @@ public class FileManager {
 
     public static void saveAccounts(List<Account> accounts) {
         for (Account account : accounts) {
-            int accountNumber = account.getAccountNumber();
-            
-            // Construct the full path
-            String fullPath = "final_project/database/accounts/accounts_" + accountNumber;
+            Account acc = loadAccount(account.getAccountNumber());
+            boolean length = String.valueOf(account.getAccountNumber()).length() != 9;
 
-            try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fullPath))) {
-                oos.writeObject(account); // Serialize individual account, not the whole list
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (acc == null && length) {
+                int accountNumber = account.getAccountNumber();
+                
+                // Construct the full path
+                String fullPath = "final_project/database/accounts/accounts_" + accountNumber;
+    
+                try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fullPath))) {
+                    oos.writeObject(account); // Serialize individual account, not the whole list
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
@@ -35,18 +40,9 @@ public class FileManager {
             return null;
         }
     }
-
-    public boolean checkAccount(Account account) {
-        Account acc = loadAccount(account.getAccountNumber());
-        
-
-        if (acc == null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
     
+    
+
     // public static void saveAccounts(List<Account> accounts, String filename) {
     //     for (Account account : accounts) {
     //         int account_number = account.getAccountNumber();
