@@ -21,6 +21,8 @@ public class FileManager {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
+            } else {
+                System.out.println("There are already an account with this number!");
             }
         }
     }
@@ -41,7 +43,7 @@ public class FileManager {
         }
     }
     
-    
+        
 
     // public static void saveAccounts(List<Account> accounts, String filename) {
     //     for (Account account : accounts) {
