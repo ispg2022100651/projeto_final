@@ -9,14 +9,14 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String password;
-    private int cc;
+    private String cc;
     private ArrayList<Integer> account_number;
 
     public User() {
-        this("", "", "", 0);
+        this("", "", "", "");
     }
     
-    public User(String name, String email, String password, int cc) {
+    public User(String name, String email, String password, String cc) {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -73,11 +73,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getIdCard() {
+    public String getIdCard() {
         return cc;
     }
 
-    public void setIdCard(int cc) {
+    public void setIdCard(String cc) {
         this.cc = cc;
     }
 
