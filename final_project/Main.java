@@ -41,12 +41,21 @@ public class Main {
         // // Transaction //
         // // Create a transaction
         // Transaction tr = new Expense(120.00,"basebol",new Date(),"work");
+        // // Create Category (Transfer, deposit, pickup)
+        // Category category = new Category("Deposit");
+
+        // Account account12 = new Account(123456789, 1000.0);
+
+        // // Set the category with in the transaction
+        // tr.setCategory(category);
 
         // // Calls a method from Account that calls a method from FileManager to execute the transaction
-        // account1.addTransaction(tr);
+        // account12.addTransaction(tr);
+
+        // tr.print();
 
         // // Load account by account number
-        // Account loadedAccount2 = FileManager.loadAccount(account1.getAccountNumber());
+        // Account loadedAccount2 = FileManager.loadAccount(account12.getAccountNumber());
 
         // // Display loaded account
         // if (loadedAccount2 != null) {
