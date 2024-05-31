@@ -25,12 +25,28 @@ public class User implements Serializable {
     }
 
     public void addAccount(Account acc) {
-        this.account_number.add(acc.getAccountNumber());
+        try {
+         
+            List<Account> accounts = new ArrayList<>();
+            accounts.add(acc);
 
-        List<Account> accounts = new ArrayList<>();
-        accounts.add(acc);
+            FileManager.saveAccounts(accounts);
+         
+            this.account_number.add(acc.getAccountNumber());
 
-        FileManager.saveAccounts(accounts);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public List<Integer> getAccounts()
+    {
+        return this.account_number;
+    }
+
+    public void removeAccount()
+    {
+        
     }
 
     // Getters and Setters
@@ -64,5 +80,16 @@ public class User implements Serializable {
 
     public void setIdCard(int cc) {
         this.cc = cc;
+    }
+
+    public void print() {
+        System.out.println("User details:");
+        System.out.println("Name: " + this.name);
+        System.out.println("Email: " + this.email);
+        System.out.println("CC: " + this.cc);
+        System.out.println("Accounts:");
+        for (int i = 0; i < this.account_number.size(); i++) {
+            System.out.println("[" + (i + 1) + "] - Account Number: " + this.account_number.get(i));
+        }
     }
 }
