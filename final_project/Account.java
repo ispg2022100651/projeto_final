@@ -53,7 +53,7 @@ public class Account implements Serializable {
 
     public void print() {
         System.out.println("Transaction details:"
-                        + "\nAccount Number: " + this.accountNumber + "\n"
-                        + "Balance: " + this.balance +"€");
+                        + "\nAccount Number: " + this.accountNumber
+                        + "\nBalance: " + this.balance +"€");
     }
 }

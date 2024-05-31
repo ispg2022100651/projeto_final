@@ -5,6 +5,7 @@ import java.util.Date;
 
 public class Transaction implements Serializable {
     private static final long serialVersionUID = 1L;
+    private Category category;
     private double amount;
     private String description;
     private Date date;
@@ -32,6 +33,14 @@ public class Transaction implements Serializable {
         this.amount = amount;
     }
 
+    public String getCategory() {
+        return this.category.getName();
+    }
+
+    public void setCategory(Category cat) {
+        this.category = cat;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -50,6 +59,7 @@ public class Transaction implements Serializable {
     
     public void print() {
         System.out.println("Transaction details:"
+                        + "\nCategory: " + this.getCategory()
                         + "\nAmount: " + this.amount + "€\n"
                         + "Description: " + this.description + "\n"
                         + "Date: " + this.date);
@@ -66,8 +76,9 @@ public class Transaction implements Serializable {
     
     @Override
     public String toString() {
-        return "Amount: " + this.amount + "€\n"
-                + "Description: " + this.description + "\n"
-                + "Date" + this.date + ".";
+        return "Category: " + this.getCategory()
+                + "\nAmount: " + this.amount + "€"
+                + "\nDescription: " + this.description
+                + "\nDate" + this.date + ".";
     }
 }
