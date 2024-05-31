@@ -66,16 +66,17 @@ public class Main {
         // user.print();
         // FileManager.saveUser(user);
 
-        // Load the account from a user
-        User user_loaded = FileManager.loadUser("ispg2022102220@ispgaya.pt", "123");
+        // // Load the account from a user
+        // User user_loaded = FileManager.loadUser("ispg2022102220@ispgaya.pt", "123");
 
-        // Account acc = new Account(123123125, 1600);
-        // user_loaded.addAccount(acc);
+        // // Account acc = new Account(123123125, 1600);
+        // // user_loaded.addAccount(acc);
+
+        // // System.out.println(user_loaded.getAccounts());
+        // // user_loaded.removeAccount(123123125);
+        // // user_loaded.print();
 
         // System.out.println(user_loaded.getAccounts());
-        // user_loaded.removeAccount(123123125);
         // user_loaded.print();
-
-        System.out.println(user_loaded.getAccounts());
     }   
 }
