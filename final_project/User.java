@@ -25,15 +25,12 @@ public class User implements Serializable {
     }
 
     public void addAccount(Account acc) {
+        List<Account> accounts = new ArrayList<>();
+        accounts.add(acc);
+
         try {
-         
-            List<Account> accounts = new ArrayList<>();
-            accounts.add(acc);
-
             FileManager.saveAccounts(accounts);
-         
             this.account_number.add(acc.getAccountNumber());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -44,9 +41,11 @@ public class User implements Serializable {
         return this.account_number;
     }
 
-    public void removeAccount()
-    {
-        
+    public void removeAccount(int acc_number) {
+        boolean removed = this.account_number.remove(Integer.valueOf(acc_number));
+        if (!removed) {
+            System.out.println("Account number " + acc_number + " not found.");
+        }
     }
 
     // Getters and Setters
@@ -87,9 +86,12 @@ public class User implements Serializable {
         System.out.println("Name: " + this.name);
         System.out.println("Email: " + this.email);
         System.out.println("CC: " + this.cc);
-        System.out.println("Accounts:");
-        for (int i = 0; i < this.account_number.size(); i++) {
-            System.out.println("[" + (i + 1) + "] - Account Number: " + this.account_number.get(i));
+        if (this.account_number.size() > 0)
+        {
+            System.out.println("Accounts:");
+            for (int i = 0; i < this.account_number.size(); i++) {
+                System.out.println("[" + (i + 1) + "] - Account Number: " + this.account_number.get(i));
+            }
         }
     }
 }
