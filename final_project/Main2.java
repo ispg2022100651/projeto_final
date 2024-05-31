@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.Scanner;
 // Interface Gráfica
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 
 public class Main2
 {
@@ -32,13 +29,13 @@ public class Main2
         // Criação do painel
         JPanel panel = new JPanel();
         frame.add(panel);
-        placeComponents(panel);
+        placeComponents(panel, frame);
 
         // Tornar a janela visível
         frame.setVisible(true);
     }
 
-    private static void placeComponents(JPanel panel)
+    private static void placeComponents(JPanel panel, JFrame frame)
     {
         panel.setLayout(null);
 
@@ -74,7 +71,7 @@ public class Main2
             @Override
             public void actionPerformed(ActionEvent e)
             {
-                loadUser();
+                loadUser(frame);
             }
         });
         
@@ -153,7 +150,7 @@ public class Main2
         }
     }
 
-    private static void loadUser() {
+    private static void loadUser(JFrame frame) {
         // Cria um diálogo para o usuário inserir o email e a senha
         String email = JOptionPane.showInputDialog("Enter the user's email:");
         String password = JOptionPane.showInputDialog("Enter the user's password:");
@@ -162,10 +159,7 @@ public class Main2
             // Implementar a lógica de carregamento do usuário
             User user = FileManager.loadUser(email, password);
             if (user != null) {
-                JOptionPane.showMessageDialog(null, "User loaded successfully:\nName: " + user.getName() +
-                        "\nEmail: " + user.getEmail() +
-                        "\nPassword: " + user.getPassword() +
-                        "\nCC: " + user.getIdCard());
+                showUserOptions(frame, user);
             } else {
                 JOptionPane.showMessageDialog(null, "User not found or invalid email/password.");
             }
@@ -174,33 +168,80 @@ public class Main2
         }
     }
 
-    private static User findUserByName(String name) {
-        for (User user : users) {
-            if (user.getName().equalsIgnoreCase(name)) {
-                return user;
-            }
-        }
-        return null;
-    }
+    private static void showUserOptions(JFrame frame, User user) {
+        // Criar nova janela para mostrar as opções do usuário
+        JFrame userFrame = new JFrame("User Options");
+        userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        userFrame.setSize(400, 300);
+        userFrame.setLocationRelativeTo(null);
 
-    // public static void loadUser(Scanner scanner, List<User> users, List<Account> accounts)
-    // {
-    //     System.out.print("Enter user email to load: ");
-    //     String loadUserEmail = scanner.nextLine();
-    //     System.out.print("Enter user password to load: ");
-    //     String loadUserPassword = scanner.nextLine();
-    //     User loadedUser = FileManager.loadUser(loadUserEmail, loadUserPassword);
-        
-    //     if ( loadedUser != null )
-    //     {
-    //         loadedUser.print();
-    //         accountMenu(scanner, accounts);
-    //     }
-    //     else
-    //     {
-    //         System.out.println("Failed to load user.");
-    //     }
-    // }
+        JPanel panel = new JPanel(new GridBagLayout());
+        userFrame.add(panel);
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.anchor = GridBagConstraints.WEST;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        // User Ubfi
+        JLabel userInfoLabel = new JLabel("User Info:");
+        panel.add(userInfoLabel, gbc);
+        // Name
+        gbc.gridy++;
+        JLabel userNameLabel = new JLabel("Name: " + user.getName());
+        panel.add(userNameLabel, gbc);
+        // Email
+        gbc.gridy++;
+        JLabel userEmailLabel = new JLabel("<html>Email: " + user.getEmail() + "</html>");
+        panel.add(userEmailLabel, gbc);
+        // CC
+        gbc.gridy++;
+        JLabel userCCLabel = new JLabel("CC: " + user.getIdCard());
+        panel.add(userCCLabel, gbc);
+
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        // Create Account
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        JButton createAccountButton = new JButton("Create Account");
+        buttonPanel.add(createAccountButton);
+        // Load Account
+        JButton loadAccountButton = new JButton("Load Account");
+        buttonPanel.add(loadAccountButton);
+        // Logout
+        JButton logoutButton = new JButton("Logout");
+        buttonPanel.add(logoutButton);
+
+        panel.add(buttonPanel, gbc);
+
+        createAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implementar lógica para criar conta
+                JOptionPane.showMessageDialog(panel, "Create Account clicked.");
+            }
+        });
+
+        loadAccountButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Implementar lógica para carregar conta
+                JOptionPane.showMessageDialog(panel, "Load Account clicked.");
+            }
+        });
+
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                userFrame.dispose();
+                frame.setVisible(true);
+            }
+        });
+
+        frame.setVisible(false);
+        userFrame.setVisible(true);
+    }
 
     public static void accountMenu(Scanner scanner, List<Account> accounts) {
         boolean running = true;
