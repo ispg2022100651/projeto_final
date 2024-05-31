@@ -86,45 +86,6 @@ public class Main2
         });
     }
 
-    // public static void main_2(String[] args) {
-    //     Scanner scanner = new Scanner(System.in);
-    //     List<Account> accounts = new ArrayList<>();
-    //     List<User> users = new ArrayList<>();
-    //     boolean running = true;
-
-    //     while (running) {
-    //         System.out.println("Menu:");
-    //         System.out.println("1. Create User");
-    //         System.out.println("2. Load User");
-    //         System.out.println("3. Exit");
-    //         System.out.print("Choose an option: ");
-    //         int choice = scanner.nextInt();
-    //         scanner.nextLine(); // Consume newline
-
-    //         switch (choice) {
-    //             case 1:
-    //                 boolean success = createUser(scanner, users, accounts);
-    //                 if ( !success )
-    //                 {
-    //                     System.out.println("Error creating user. Please try again.");
-    //                 }
-    //                 break;
-    //             case 2:
-    //                 loadUser(scanner, users, accounts);
-    //                 break;
-    //             case 3:
-    //                 running = false;
-    //                 System.out.println("Exiting...");
-    //                 break;
-    //             default:
-    //                 System.out.println("Invalid choice. Please try again.");
-    //                 break;
-    //         }
-    //     }
-
-    //     scanner.close();
-    // }
-
     private static boolean createUser() {
         // Obter os dados do usuário através de diálogos
         String name = JOptionPane.showInputDialog("Enter name:");
@@ -159,7 +120,7 @@ public class Main2
             // Implementar a lógica de carregamento do usuário
             User user = FileManager.loadUser(email, password);
             if (user != null) {
-                showUserOptions(frame, user);
+                accountMenu(frame, user);
             } else {
                 JOptionPane.showMessageDialog(null, "User not found or invalid email/password.");
             }
@@ -168,7 +129,7 @@ public class Main2
         }
     }
 
-    private static void showUserOptions(JFrame frame, User user) {
+    private static void accountMenu(JFrame frame, User user) {
         // Criar nova janela para mostrar as opções do usuário
         JFrame userFrame = new JFrame("User Options");
         userFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -219,7 +180,7 @@ public class Main2
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Implementar lógica para criar conta
-                JOptionPane.showMessageDialog(panel, "Create Account clicked.");
+                createAccount();
             }
         });
 
@@ -243,46 +204,46 @@ public class Main2
         userFrame.setVisible(true);
     }
 
-    public static void accountMenu(Scanner scanner, List<Account> accounts) {
-        boolean running = true;
+    // public static void accountMenu_1(Scanner scanner, List<Account> accounts) {
+    //     boolean running = true;
 
-        while ( running )
-        {
-            System.out.println(" ----- ----- ----- ----- ");
-            System.out.println("Account Menu:");
-            System.out.println("1. Create Account");
-            System.out.println("2. Load Account");
-            System.out.println("3. Create Transaction");
-            System.out.println("4. Back to Main Menu");
-            System.out.println(" ----- ----- ----- ----- ");
-            System.out.print("Choose an option: ");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); // Consume newline
+    //     while ( running )
+    //     {
+    //         System.out.println(" ----- ----- ----- ----- ");
+    //         System.out.println("Account Menu:");
+    //         System.out.println("1. Create Account");
+    //         System.out.println("2. Load Account");
+    //         System.out.println("3. Create Transaction");
+    //         System.out.println("4. Back to Main Menu");
+    //         System.out.println(" ----- ----- ----- ----- ");
+    //         System.out.print("Choose an option: ");
+    //         int choice = scanner.nextInt();
+    //         scanner.nextLine(); // Consume newline
 
-            switch (choice) {
-                case 1:
-                    createAccount(scanner, accounts);
-                    break;
-                case 2:
-                    loadAccount(scanner, accounts);
-                    break;
-                case 3:
-                    createTransaction(scanner, accounts);
-                    break;
-                case 4:
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-                    break;
-            }
-        }
-    }
+    //         switch (choice) {
+    //             case 1:
+    //                 createAccount(scanner, accounts);
+    //                 break;
+    //             case 2:
+    //                 loadAccount(scanner, accounts);
+    //                 break;
+    //             case 3:
+    //                 createTransaction(scanner, accounts);
+    //                 break;
+    //             case 4:
+    //                 running = false;
+    //                 break;
+    //             default:
+    //                 System.out.println("Invalid choice. Please try again.");
+    //                 break;
+    //         }
+    //     }
+    // }
 
-    public static void createAccount(Scanner scanner, List<Account> accounts) {
-        // Your code to create an account goes here
-        System.out.println("Account created successfully.");
-    }
+    // public static void createAccount(Scanner scanner, List<Account> accounts) {
+    //     // Your code to create an account goes here
+    //     System.out.println("Account created successfully.");
+    // }
 
     public static void loadAccount(Scanner scanner, List<Account> accounts) {
         // Your code to load an account goes here
@@ -400,17 +361,59 @@ public class Main2
     //     scanner.close();
     // }
 
-    public static void createAccount(Scanner scanner)
+    public static void createAccount()
     {
-        System.out.print("Enter account number (int): ");
-        int accountNumber = scanner.nextInt();
+        JFrame createAccountFrame = new JFrame("Create Account");
+        createAccountFrame.setSize(300, 200);
+        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        createAccountFrame.setLayout(new GridLayout(3, 2));
 
-        System.out.print("Enter balance (double): ");
-        double balance = scanner.nextDouble();
+        JLabel accountNumberLabel = new JLabel("Enter account number (int): ");
+        JTextField accountNumberField = new JTextField();
+        JLabel balanceLabel = new JLabel("Enter balance (double): ");
+        JTextField balanceField = new JTextField();
+        JButton saveButton = new JButton("Save");
 
-        Account account = new Account(accountNumber, balance);
-        FileManager.saveAccount(account);
+        saveButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    int accountNumber = Integer.parseInt(accountNumberField.getText());
+                    double balance = Double.parseDouble(balanceField.getText());
+
+                    Account account = new Account(accountNumber, balance);
+                    FileManager.saveAccount(account);
+
+                    JOptionPane.showMessageDialog(createAccountFrame, "Account created successfully!");
+                    createAccountFrame.dispose();
+                } catch (NumberFormatException ex) {
+                    JOptionPane.showMessageDialog(createAccountFrame, "Invalid input. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(createAccountFrame, "Error creating account: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
+        createAccountFrame.add(accountNumberLabel);
+        createAccountFrame.add(accountNumberField);
+        createAccountFrame.add(balanceLabel);
+        createAccountFrame.add(balanceField);
+        createAccountFrame.add(new JLabel()); // Placeholder
+        createAccountFrame.add(saveButton);
+
+        createAccountFrame.setVisible(true);
     }
+
+    // public static void createAccount(Scanner scanner)
+    // {
+    //     System.out.print("Enter account number (int): ");
+    //     int accountNumber = scanner.nextInt();
+
+    //     System.out.print("Enter balance (double): ");
+    //     double balance = scanner.nextDouble();
+
+    //     Account account = new Account(accountNumber, balance);
+    //     FileManager.saveAccount(account);
+    // }
 
     private static Account findAccount(List<Account> accounts, int accountNumber) {
         for (Account account : accounts) {
