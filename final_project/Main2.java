@@ -364,20 +364,33 @@ public class Main2
     public static void createAccount()
     {
         JFrame createAccountFrame = new JFrame("Create Account");
-        createAccountFrame.setSize(300, 200);
-        createAccountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        createAccountFrame.setLayout(new GridLayout(3, 2));
+        createAccountFrame.setSize(400, 300);
+        createAccountFrame.setLocationRelativeTo(null);
+        createAccountFrame.setLayout(new GridLayout(4, 2));
 
-        JLabel accountNumberLabel = new JLabel("Enter account number (int): ");
+        JLabel accountNumberLabel = new JLabel("Account Number:");
         JTextField accountNumberField = new JTextField();
-        JLabel balanceLabel = new JLabel("Enter balance (double): ");
+        JLabel balanceLabel = new JLabel("Balance:");
         JTextField balanceField = new JTextField();
+        
         JButton saveButton = new JButton("Save");
-
         saveButton.addActionListener(new ActionListener() {
+            @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    int accountNumber = Integer.parseInt(accountNumberField.getText());
+                    String accountNumberStr = accountNumberField.getText();
+                    if (accountNumberStr.length() != 9 || !accountNumberStr.matches("\\d+")) {
+                        throw new IllegalArgumentException("Account number must be 9 digits.");
+                    }
+
+                    int accountNumber = Integer.parseInt(accountNumberStr);
+                    
+                    // Verifica se a conta já existe
+                    Account existingAccount = FileManager.loadAccount(accountNumber);
+                    if (existingAccount != null) {
+                        throw new IllegalArgumentException("Account already exists.");
+                    }
+
                     double balance = Double.parseDouble(balanceField.getText());
 
                     Account account = new Account(accountNumber, balance);
@@ -387,6 +400,8 @@ public class Main2
                     createAccountFrame.dispose();
                 } catch (NumberFormatException ex) {
                     JOptionPane.showMessageDialog(createAccountFrame, "Invalid input. Please enter valid numbers.", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (IllegalArgumentException ex) {
+                    JOptionPane.showMessageDialog(createAccountFrame, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(createAccountFrame, "Error creating account: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
