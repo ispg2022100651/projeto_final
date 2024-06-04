@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class FixedExpense extends Expense
+public class FixedExpense extends Expense implements FixedInterface
 {
     private String type;
     private int frequency;
@@ -10,6 +10,14 @@ public class FixedExpense extends Expense
         super(amount, description, date, destination);
         this.type = type;
         this.frequency = frequency;
+    }
+
+    public FixedExpense(FixedExpense ref) {
+        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getDestination(), ref.type, ref.frequency);
+    }
+
+    public FixedExpense() {
+        this(0.0, "", null, "", "", 0);
     }
 
     public String getType() {
@@ -37,5 +45,16 @@ public class FixedExpense extends Expense
                         + "Date: " + super.getDate() + "\n"
                         + "\nDestination: " + super.getDestination() + "\n"
                         + "Frequency: " + this.frequency + ", " + this.type);
+    }
+
+    @Override
+    public void print() {
+        System.out.println("Transaction details:"
+        + "\nCategory: " + super.getCategory()
+        + "\nAmount: " + super.getAmount() + "€\n"
+        + "Description: " + super.getDescription() + "\n"
+        + "Date: " + super.getDate() + "\n"
+        + "\nDestination: " + super.getDestination() + "\n"
+        + "Frequency: " + this.frequency + ", " + this.type);
     }
 } 

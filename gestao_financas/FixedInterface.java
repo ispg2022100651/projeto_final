@@ -1,5 +1,3 @@
-package final_project;
-
 public interface FixedInterface {
 
     public String getType();

@@ -15,6 +15,14 @@ public class Transaction implements Serializable
         this.date = date;
     }
 
+    public Transaction(Transaction ref) {
+        this(ref.amount, ref.description, ref.date);
+    }
+
+    public Transaction() {
+        this(0.0, "", null);
+    }
+
     public double getAmount()
     {
         return amount;
@@ -61,6 +69,14 @@ public class Transaction implements Serializable
 
     public String toString() {
         return ("Transaction details:"
+                        + "\nCategory: " + this.getCategory()
+                        + "\nAmount: " + this.amount + "€\n"
+                        + "Description: " + this.description + "\n"
+                        + "Date: " + this.date);
+    }
+
+    public void print() {
+        System.out.println("Transaction details:"
                         + "\nCategory: " + this.getCategory()
                         + "\nAmount: " + this.amount + "€\n"
                         + "Description: " + this.description + "\n"

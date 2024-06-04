@@ -10,6 +10,14 @@ public class Expense extends Transaction
         this.destination = destination;
     }
 
+    public Expense(Expense ref) {
+        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.destination);
+    }
+
+    public Expense() {
+        this(0.0, "", null, "");
+    }
+
     public String getDestination()
     {
         return destination;
@@ -27,5 +35,15 @@ public class Expense extends Transaction
                         + "Description: " + super.getDescription() + "\n"
                         + "Date: " + super.getDate() + "\n"
                         + "\nDestination: " + this.destination);
+    }
+
+    @Override
+    public void print() {
+        System.out.println("Transaction details:"
+        + "\nCategory: " + super.getCategory()
+        + "\nAmount: " + super.getAmount() + "€\n"
+        + "Description: " + super.getDescription() + "\n"
+        + "Date: " + super.getDate() + "\n"
+        + "\nDestination: " + this.destination);
     }
 }

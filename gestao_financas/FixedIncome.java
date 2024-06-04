@@ -1,6 +1,6 @@
 import java.util.Date;
 
-public class FixedIncome extends Income
+public class FixedIncome extends Income  implements FixedInterface
 {
     private String type;
     private int frequency;
@@ -10,6 +10,14 @@ public class FixedIncome extends Income
         super(amount, description, date, source);
         this.type = type;
         this.frequency = frequency;
+    }
+
+    public FixedIncome(FixedIncome ref) {
+        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getSource(), ref.type, ref.frequency);
+    }
+
+    public FixedIncome() {
+        this(0.0, "", null, "", "", 0);
     }
 
     public String getType() {
@@ -31,6 +39,17 @@ public class FixedIncome extends Income
     @Override
     public String toString() {
         return ("Income details:"
+                + "\nCategory: " + super.getCategory()
+                + "\nAmount: " + super.getAmount() + "€\n"
+                + "Description: " + super.getDescription() + "\n"
+                + "Date: " + super.getDate() + "\n"
+                + "\nDestination: " + super.getSource() + "\n"
+                + "Frequency: " + this.frequency + ", " + this.type);
+    }
+
+    @Override
+    public void print() {
+        System.out.println("Income details:"
                 + "\nCategory: " + super.getCategory()
                 + "\nAmount: " + super.getAmount() + "€\n"
                 + "Description: " + super.getDescription() + "\n"

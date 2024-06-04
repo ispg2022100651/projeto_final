@@ -5,13 +5,13 @@ public class Category
     public Category(String name) {
         this.name = name;
     }
+    
+    public Category(Category ref) {
+        this.name = ref.name;
+    }
 
     public Category() {
         this("");
-    }
-
-    public Category(Category ref) {
-        this.name = ref.name;
     }
 
     public void setName(String name) {
@@ -23,8 +23,14 @@ public class Category
         return name;
     } 
 
-    public String print() {
+    public String toString() {
         return ("Category details:"
                         + "\nName: " + this.name );
     }
+    
+    public void print() {
+        System.out.println("Category details:"
+        + "\nName: " + this.name );
+    }
+
 }

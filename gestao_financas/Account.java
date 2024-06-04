@@ -7,11 +7,19 @@ public class Account implements Serializable
     private double balance;
     private ArrayList<Transaction> transactions;
  
-    public Account(String accountNumber)
+    public Account(String accountNumber, double balance, ArrayList<Transaction> transactions)
     {
         this.accountNumber = accountNumber;
-        this.balance = 0.0;
-        this.transactions = new ArrayList<>();
+        this.balance = balance;
+        this.transactions = transactions;
+    }
+
+    public Account(Account ref) {
+        this(ref.accountNumber, ref.balance, ref.transactions);
+    }
+
+    public Account() {
+        this("", 0.0, null);
     }
 
     public String getAccountNumber()
@@ -46,5 +54,11 @@ public class Account implements Serializable
         return ("Transaction details:"
                         + "\nAccount Number: " + this.accountNumber
                         + "\nBalance: " + this.balance +"€");
+    }
+
+    public void print() {
+        System.out.println("Transaction details:"
+        + "\nAccount Number: " + this.accountNumber
+        + "\nBalance: " + this.balance +"€");
     }
 }

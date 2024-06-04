@@ -17,6 +17,14 @@ public class User implements Serializable {
         this.accounts = new ArrayList<>();
     }
 
+    public User(User ref) {
+        this(ref.name, ref.email, ref.password, ref.cc);
+    }
+
+    public User() {
+        this("", "", "", "");
+    }
+
     public String getName()
     {
         return name;
