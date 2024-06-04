@@ -309,7 +309,7 @@ class CreateAccountPanel extends JPanel
                 return;
             }
 
-            Account account = new Account(accountNumber);
+            Account account = new Account(accountNumber, 0.0, null);
             FinanceApp.getCurrentUser().addAccount(account);
 
             try
