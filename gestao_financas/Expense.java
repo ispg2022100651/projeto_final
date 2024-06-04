@@ -4,18 +4,18 @@ public class Expense extends Transaction
 {
     private String destination;
 
-    public Expense(double amount, String description, Date date, String destination)
+    public Expense(double amount, String description, Date date, Category category, String destination)
     {
-        super(amount, description, date);
+        super(amount, description, date, category);
         this.destination = destination;
     }
 
     public Expense(Expense ref) {
-        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.destination);
+        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getCategory(), ref.destination);
     }
 
     public Expense() {
-        this(0.0, "", null, "");
+        this(0.0, "", null, null, "");
     }
 
     public String getDestination()

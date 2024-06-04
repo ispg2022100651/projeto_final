@@ -5,19 +5,19 @@ public class FixedIncome extends Income  implements FixedInterface
     private String type;
     private int frequency;
 
-    public FixedIncome(double amount, String description, Date date, String source, String type,  int frequency)
+    public FixedIncome(double amount, String description, Date date, Category category, String source, String type,  int frequency)
     {
-        super(amount, description, date, source);
+        super(amount, description, date, category, source);
         this.type = type;
         this.frequency = frequency;
     }
 
     public FixedIncome(FixedIncome ref) {
-        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getSource(), ref.type, ref.frequency);
+        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getCategory(), ref.getSource(), ref.type, ref.frequency);
     }
 
     public FixedIncome() {
-        this(0.0, "", null, "", "", 0);
+        this(0.0, "", null, null, "", "", 0);
     }
 
     public String getType() {

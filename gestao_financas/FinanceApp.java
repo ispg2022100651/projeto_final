@@ -280,10 +280,6 @@ class UserMenuPanel extends JPanel
             app.showMainMenu();
         });
         add(logoutButton);
-
-        JButton exitButton = new JButton("Sair");
-        exitButton.addActionListener(e -> System.exit(0));
-        add(exitButton);
     }
 }
 
@@ -375,13 +371,6 @@ class AccountMenuPanel extends JPanel
         viewTransactionHistoryButton.addActionListener(e -> app.showTransactionHistoryPanel());
         add(viewTransactionHistoryButton);
 
-        JButton logoutButton = new JButton("Logout");
-        logoutButton.addActionListener(e -> {
-            FinanceApp.setCurrentAccount(null);
-            app.showUserMenu();
-        });
-        add(logoutButton);
-
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showUserMenu());
         add(backButton);
@@ -413,7 +402,8 @@ class CreateTransactionPanel extends JPanel
 
             String destination = JOptionPane.showInputDialog(this, "Destino:");
 
-            Expense expense = new Expense(amount, description, date, destination);
+            Category category = new Category("Transferência");
+            Transaction expense = new Expense(amount, description, date, category, destination);
             FinanceApp.getCurrentAccount().addTransaction(expense);
 
             try
@@ -438,7 +428,8 @@ class CreateTransactionPanel extends JPanel
 
             String source = JOptionPane.showInputDialog(this, "Origem:");
 
-            Income income = new Income(amount, description, date, source);
+            Category category = new Category("Transferência");
+            Transaction income = new Income(amount, description, date, category, source);
             FinanceApp.getCurrentAccount().addTransaction(income);
 
             try
@@ -482,12 +473,12 @@ class TransactionHistoryPanel extends JPanel
     public void updateTransactionHistory()
     {
         textArea.setText("");
-        if ( FinanceApp.getCurrentAccount() != null )
+        if ( FinanceApp.getCurrentAccount() != null &&  FinanceApp.getCurrentAccount().getTransactions() != null)
         {
             for ( Transaction transaction : FinanceApp.getCurrentAccount().getTransactions() )
             {
                 textArea.append(transaction.getDate() + " - " + transaction.getDescription() + " - " + transaction.getAmount() + "\n");
-            }
+                }
         }
     }
 }

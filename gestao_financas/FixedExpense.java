@@ -5,19 +5,19 @@ public class FixedExpense extends Expense implements FixedInterface
     private String type;
     private int frequency;
 
-    public FixedExpense(double amount, String description, Date date, String destination, String type, int frequency)
+    public FixedExpense(double amount, String description, Date date, Category category, String destination, String type, int frequency)
     {
-        super(amount, description, date, destination);
+        super(amount, description, date, category, destination);
         this.type = type;
         this.frequency = frequency;
     }
 
     public FixedExpense(FixedExpense ref) {
-        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getDestination(), ref.type, ref.frequency);
+        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getCategory(), ref.getDestination(), ref.type, ref.frequency);
     }
 
     public FixedExpense() {
-        this(0.0, "", null, "", "", 0);
+        this(0.0, "", null, null, "", "", 0);
     }
 
     public String getType() {

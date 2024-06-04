@@ -24,30 +24,31 @@ public class Account implements Serializable
 
     public String getAccountNumber()
     {
-        return accountNumber;
+        return this.accountNumber;
     }
 
     public double getBalance()
     {
-        return balance;
+        return this.balance;
     }
 
     public ArrayList<Transaction> getTransactions()
     {
-        return transactions;
+        return this.transactions;
     }
 
     public void addTransaction(Transaction transaction)
     {
-        transactions.add(transaction);
         if ( transaction instanceof Expense )
         {
-            balance -= transaction.getAmount();
+            this.balance -= transaction.getAmount();
         }
         else if ( transaction instanceof Income )
         {
-            balance += transaction.getAmount();
+            this.balance += transaction.getAmount();
         }
+        System.out.println(transaction);
+        this.transactions.add(transaction);
     }
 
     public String toString() {

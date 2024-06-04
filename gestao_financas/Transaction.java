@@ -8,7 +8,7 @@ public class Transaction implements Serializable
     private Category category;
     private Date date;
  
-    public Transaction(double amount, String description, Date date)
+    public Transaction(double amount, String description, Date date, Category category)
     {
         this.amount = amount;
         this.description = description;
@@ -16,11 +16,11 @@ public class Transaction implements Serializable
     }
 
     public Transaction(Transaction ref) {
-        this(ref.amount, ref.description, ref.date);
+        this(ref.amount, ref.description, ref.date, ref.category);
     }
 
     public Transaction() {
-        this(0.0, "", null);
+        this(0.0, "", null, null);
     }
 
     public double getAmount()

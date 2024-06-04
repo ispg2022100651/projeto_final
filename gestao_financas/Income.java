@@ -4,18 +4,18 @@ public class Income extends Transaction
 {
     private String source;
 
-    public Income(double amount, String description, Date date, String source)
+    public Income(double amount, String description, Date date, Category category, String source)
     {
-        super(amount, description, date);
+        super(amount, description, date, category);
         this.source = source;
     }
 
     public Income(Income ref) {
-        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.source);
+        this(ref.getAmount(), ref.getDescription(), ref.getDate(), ref.getCategory(), ref.source);
     }
 
     public Income() {
-        this(0.0, "", null, "");
+        this(0.0, "", null, null, "");
     }
 
     public String getSource()
