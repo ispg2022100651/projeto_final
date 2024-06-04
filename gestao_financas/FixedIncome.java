@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.util.Date;
 
-public class FixedIncome extends Income implements Serializable
+public class FixedIncome extends Income
 {
     private String type;
     private String frequency;

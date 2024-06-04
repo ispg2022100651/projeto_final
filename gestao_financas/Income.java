@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.util.Date;
 
-public class Income extends Transaction implements Serializable
+public class Income extends Transaction
 {
     private String source;
 

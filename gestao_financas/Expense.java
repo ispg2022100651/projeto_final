@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.util.Date;
 
-public class Expense extends Transaction implements Serializable
+public class Expense extends Transaction
 {
     private String destination;
 

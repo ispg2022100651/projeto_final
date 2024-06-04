@@ -1,7 +1,6 @@
-import java.io.Serializable;
 import java.util.Date;
 
-public class FixedExpense extends Expense implements Serializable
+public class FixedExpense extends Expense
 {
     private String type;
     private String frequency;
