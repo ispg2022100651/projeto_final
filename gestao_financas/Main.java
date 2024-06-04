@@ -3,46 +3,50 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Scanner;
 
-// Interface Gráfica
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Date;
-
-public class Main {
+public class Main
+{
     private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser = null;
     private static Account currentAccount = null;
     private static Scanner scanner = new Scanner(System.in);
 
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args)
+    {
+        try
+        {
             users = FileManager.loadUsers();
-        } catch (IOException | ClassNotFoundException e) {
+        }
+        catch (IOException | ClassNotFoundException e)
+        {
             System.out.println("Nenhum utilizador encontrado.");
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
+            try
+            {
                 FileManager.saveUsers(users);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 System.out.println("Erro ao salvar utilizadores.");
             }
         }));
 
-        while (true) {
-            if (currentUser == null) {
+        while (true)
+        {
+            if ( currentUser == null )
+            {
                 showMainMenu();
-            } else {
+            }
+            else
+            {
                 showUserMenu();
             }
         }
     }
 
-    private static void showMainMenu() {
+    private static void showMainMenu()
+    {
         System.out.println("1. Registar Utilizador");
         System.out.println("2. Login");
         System.out.println("0. Sair");
@@ -50,7 +54,8 @@ public class Main {
         int choice = scanner.nextInt();
         scanner.nextLine();  // consume newline
 
-        switch (choice) {
+        switch (choice)
+        {
             case 1:
                 registerUser();
                 break;
@@ -65,7 +70,8 @@ public class Main {
         }
     }
 
-    private static void registerUser() {
+    private static void registerUser()
+    {
         System.out.print("Nome: ");
         String name = scanner.nextLine();
         System.out.print("Email: ");
@@ -78,23 +84,29 @@ public class Main {
         User user = new User(name, email, password, cc);
         users.add(user);
 
-        try {
+        try
+        {
             FileManager.saveUsers(users);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.out.println("Erro ao salvar utilizadores.");
         }
 
         System.out.println("Utilizador registado com sucesso!");
     }
 
-    private static void loginUser() {
+    private static void loginUser()
+    {
         System.out.print("Email: ");
         String email = scanner.nextLine();
         System.out.print("Password: ");
         String password = scanner.nextLine();
 
-        for (User user : users) {
-            if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+        for ( User user : users )
+        {
+            if ( user.getEmail().equals(email) && user.getPassword().equals(password) )
+            {
                 currentUser = user;
                 System.out.println("Login bem-sucedido!");
                 return;
@@ -104,7 +116,8 @@ public class Main {
         System.out.println("Email ou password incorretos.");
     }
 
-    private static void showUserMenu() {
+    private static void showUserMenu()
+    {
         System.out.println("1. Criar Conta");
         System.out.println("2. Entrar em Conta Existente");
         System.out.println("3. Logout");
@@ -113,7 +126,8 @@ public class Main {
         int choice = scanner.nextInt();
         scanner.nextLine();  // consume newline
 
-        switch (choice) {
+        switch (choice)
+        {
             case 1:
                 createAccount();
                 break;
@@ -132,25 +146,31 @@ public class Main {
         }
     }
 
-    private static void createAccount() {
+    private static void createAccount()
+    {
         System.out.print("Número da Conta: ");
         String accountNumber = scanner.nextLine();
 
         Account account = new Account(accountNumber);
         currentUser.addAccount(account);
 
-        try {
+        try
+        {
             FileManager.saveUsers(users);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.out.println("Erro ao salvar conta.");
         }
 
         System.out.println("Conta criada com sucesso!");
     }
 
-    private static void selectAccount() {
+    private static void selectAccount()
+    {
         System.out.println("Contas:");
-        for (int i = 0; i < currentUser.getAccounts().size(); i++) {
+        for ( int i = 0; i < currentUser.getAccounts().size(); i++ )
+        {
             System.out.println((i + 1) + ". " + currentUser.getAccounts().get(i).getAccountNumber());
         }
 
@@ -158,16 +178,21 @@ public class Main {
         int choice = scanner.nextInt();
         scanner.nextLine();  // consume newline
 
-        if (choice > 0 && choice <= currentUser.getAccounts().size()) {
+        if ( choice > 0 && choice <= currentUser.getAccounts().size() )
+        {
             currentAccount = currentUser.getAccounts().get(choice - 1);
             showAccountMenu();
-        } else {
+        }
+        else
+        {
             System.out.println("Opção inválida!");
         }
     }
 
-    private static void showAccountMenu() {
-        while (currentAccount != null) {
+    private static void showAccountMenu()
+    {
+        while ( currentAccount != null )
+        {
             System.out.println("1. Criar Transação");
             System.out.println("2. Ver Histórico de Transações");
             System.out.println("3. Logout");
@@ -176,7 +201,8 @@ public class Main {
             int choice = scanner.nextInt();
             scanner.nextLine();  // consume newline
 
-            switch (choice) {
+            switch (choice)
+            {
                 case 1:
                     createTransaction();
                     break;
@@ -195,7 +221,8 @@ public class Main {
         }
     }
 
-    private static void createTransaction() {
+    private static void createTransaction()
+    {
         System.out.print("Valor: ");
         double amount = scanner.nextDouble();
         scanner.nextLine();  // consume newline
@@ -209,7 +236,8 @@ public class Main {
         scanner.nextLine();  // consume newline
 
         Transaction transaction = null;
-        switch (choice) {
+        switch (choice)
+        {
             case 1:
                 System.out.print("Destino: ");
                 String destination = scanner.nextLine();
@@ -227,17 +255,22 @@ public class Main {
 
         currentAccount.addTransaction(transaction);
 
-        try {
+        try
+        {
             FileManager.saveUsers(users);
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             System.out.println("Erro ao salvar transação.");
         }
 
         System.out.println("Transação criada com sucesso!");
     }
 
-    private static void viewTransactionHistory() {
-        for (Transaction transaction : currentAccount.getTransactions()) {
+    private static void viewTransactionHistory()
+    {
+        for ( Transaction transaction : currentAccount.getTransactions() )
+        {
             System.out.println(transaction.getDate() + " - " + transaction.getDescription() + " - " + transaction.getAmount());
         }
     }

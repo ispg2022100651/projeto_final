@@ -8,7 +8,8 @@ public class User implements Serializable {
     private String cc;
     private ArrayList<Account> accounts;
 
-    public User(String name, String email, String password, String cc) {
+    public User(String name, String email, String password, String cc)
+    {
         this.name = name;
         this.email = email;
         this.password = password;
@@ -16,27 +17,33 @@ public class User implements Serializable {
         this.accounts = new ArrayList<>();
     }
 
-    public String getName() {
+    public String getName()
+    {
         return name;
     }
 
-    public String getEmail() {
+    public String getEmail()
+    {
         return email;
     }
 
-    public String getPassword() {
+    public String getPassword()
+    {
         return password;
     }
 
-    public String getCc() {
+    public String getCc()
+    {
         return cc;
     }
 
-    public ArrayList<Account> getAccounts() {
+    public ArrayList<Account> getAccounts()
+    {
         return accounts;
     }
 
-    public void addAccount(Account account) {
+    public void addAccount(Account account)
+    {
         accounts.add(account);
     }
 }

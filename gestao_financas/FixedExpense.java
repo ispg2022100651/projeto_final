@@ -1,21 +1,25 @@
 import java.io.Serializable;
 import java.util.Date;
 
-public class FixedExpense extends Expense implements Serializable {
+public class FixedExpense extends Expense implements Serializable
+{
     private String type;
     private String frequency;
 
-    public FixedExpense(double amount, String description, Date date, String destination, String type, String frequency) {
+    public FixedExpense(double amount, String description, Date date, String destination, String type, String frequency)
+    {
         super(amount, description, date, destination);
         this.type = type;
         this.frequency = frequency;
     }
 
-    public String getType() {
+    public String getType()
+    {
         return type;
     }
 
-    public String getFrequency() {
+    public String getFrequency()
+    {
         return frequency;
     }
 }
