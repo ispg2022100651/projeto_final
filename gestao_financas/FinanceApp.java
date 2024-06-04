@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class FinanceApp extends JFrame {
+public class FinanceApp extends JFrame
+{
     private static ArrayList<User> users = new ArrayList<>();
     private static User currentUser = null;
     private static Account currentAccount = null;
@@ -14,10 +15,14 @@ public class FinanceApp extends JFrame {
 
     private TransactionHistoryPanel transactionHistoryPanel;
 
-    public FinanceApp() {
-        try {
+    public FinanceApp()
+    {
+        try
+        {
             users = FileManager.loadUsers();
-        } catch (IOException | ClassNotFoundException e) {
+        }
+        catch (IOException | ClassNotFoundException e)
+        {
             System.out.println("Nenhum utilizador encontrado.");
         }
 
@@ -42,82 +47,102 @@ public class FinanceApp extends JFrame {
         showMainMenu();
     }
 
-    public void showMainMenu() {
+    public void showMainMenu()
+    {
         cardLayout.show(mainPanel, "MainMenu");
     }
 
-    public void showRegisterPanel() {
+    public void showRegisterPanel()
+    {
         cardLayout.show(mainPanel, "Register");
     }
 
-    public void showLoginPanel() {
+    public void showLoginPanel()
+    {
         cardLayout.show(mainPanel, "Login");
     }
 
-    public void showUserMenu() {
+    public void showUserMenu()
+    {
         cardLayout.show(mainPanel, "UserMenu");
     }
 
-    public void showAccountMenu() {
+    public void showAccountMenu()
+    {
         cardLayout.show(mainPanel, "AccountMenu");
     }
 
-    public void showCreateTransactionPanel() {
+    public void showCreateTransactionPanel()
+    {
         cardLayout.show(mainPanel, "CreateTransaction");
     }
 
-    public void showTransactionHistoryPanel() {
+    public void showTransactionHistoryPanel()
+    {
         transactionHistoryPanel.updateTransactionHistory();
         cardLayout.show(mainPanel, "TransactionHistory");
     }
 
-    public void showCreateAccountPanel() {
+    public void showCreateAccountPanel()
+    {
         cardLayout.show(mainPanel, "CreateAccount");
     }
 
-    public void showSelectAccountPanel() {
+    public void showSelectAccountPanel()
+    {
         mainPanel.add(new SelectAccountPanel(this), "SelectAccount");
         cardLayout.show(mainPanel, "SelectAccount");
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         SwingUtilities.invokeLater(() -> {
             FinanceApp app = new FinanceApp();
             app.setVisible(true);
         });
 
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            try {
+            try
+            {
                 FileManager.saveUsers(users);
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 System.out.println("Erro ao salvar utilizadores.");
             }
         }));
     }
 
-    public static ArrayList<User> getUsers() {
+    public static ArrayList<User> getUsers()
+    {
         return users;
     }
 
-    public static User getCurrentUser() {
+    public static User getCurrentUser()
+    {
         return currentUser;
     }
 
-    public static void setCurrentUser(User user) {
+    public static void setCurrentUser(User user)
+    {
         currentUser = user;
     }
 
-    public static Account getCurrentAccount() {
+    public static Account getCurrentAccount()
+    {
         return currentAccount;
     }
 
-    public static void setCurrentAccount(Account account) {
+    public static void setCurrentAccount(Account account)
+    {
         currentAccount = account;
     }
 }
 
-class MainMenuPanel extends JPanel {
-    public MainMenuPanel(FinanceApp app) {
+class MainMenuPanel extends JPanel
+{
+    public MainMenuPanel(FinanceApp app)
+    {
         setLayout(new GridLayout(3, 1));
 
         JButton registerButton = new JButton("Registar Utilizador");
@@ -134,13 +159,15 @@ class MainMenuPanel extends JPanel {
     }
 }
 
-class RegisterPanel extends JPanel {
+class RegisterPanel extends JPanel
+{
     private JTextField nameField;
     private JTextField emailField;
     private JPasswordField passwordField;
     private JTextField ccField;
 
-    public RegisterPanel(FinanceApp app) {
+    public RegisterPanel(FinanceApp app)
+    {
         setLayout(new GridLayout(5, 2));
 
         add(new JLabel("Nome:"));
@@ -169,9 +196,12 @@ class RegisterPanel extends JPanel {
             User user = new User(name, email, password, cc);
             FinanceApp.getUsers().add(user);
 
-            try {
+            try
+            {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 System.out.println("Erro ao salvar utilizadores.");
             }
 
@@ -186,11 +216,13 @@ class RegisterPanel extends JPanel {
     }
 }
 
-class LoginPanel extends JPanel {
+class LoginPanel extends JPanel
+{
     private JTextField emailField;
     private JPasswordField passwordField;
 
-    public LoginPanel(FinanceApp app) {
+    public LoginPanel(FinanceApp app)
+    {
         setLayout(new GridLayout(3, 2));
 
         add(new JLabel("Email:"));
@@ -206,8 +238,10 @@ class LoginPanel extends JPanel {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
 
-            for (User user : FinanceApp.getUsers()) {
-                if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
+            for ( User user : FinanceApp.getUsers() )
+            {
+                if ( user.getEmail().equals(email) && user.getPassword().equals(password) )
+                {
                     FinanceApp.setCurrentUser(user);
                     JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
                     app.showUserMenu();
@@ -225,8 +259,10 @@ class LoginPanel extends JPanel {
     }
 }
 
-class UserMenuPanel extends JPanel {
-    public UserMenuPanel(FinanceApp app) {
+class UserMenuPanel extends JPanel
+{
+    public UserMenuPanel(FinanceApp app)
+    {
         setLayout(new GridLayout(4, 1));
 
         JButton createAccountButton = new JButton("Criar Conta");
@@ -251,10 +287,12 @@ class UserMenuPanel extends JPanel {
     }
 }
 
-class CreateAccountPanel extends JPanel {
+class CreateAccountPanel extends JPanel
+{
     private JTextField accountNumberField;
 
-    public CreateAccountPanel(FinanceApp app) {
+    public CreateAccountPanel(FinanceApp app)
+    {
         setLayout(new GridLayout(3, 2));
 
         add(new JLabel("Número da Conta:"));
@@ -265,7 +303,8 @@ class CreateAccountPanel extends JPanel {
         createButton.addActionListener(e -> {
             String accountNumber = accountNumberField.getText();
 
-            if (accountNumber.isEmpty()) {
+            if ( accountNumber.isEmpty() )
+            {
                 JOptionPane.showMessageDialog(this, "Por favor, insira o número da conta.");
                 return;
             }
@@ -273,9 +312,12 @@ class CreateAccountPanel extends JPanel {
             Account account = new Account(accountNumber);
             FinanceApp.getCurrentUser().addAccount(account);
 
-            try {
+            try
+            {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 System.out.println("Erro ao salvar conta.");
             }
 
@@ -290,8 +332,10 @@ class CreateAccountPanel extends JPanel {
     }
 }
 
-class SelectAccountPanel extends JPanel {
-    public SelectAccountPanel(FinanceApp app) {
+class SelectAccountPanel extends JPanel
+{
+    public SelectAccountPanel(FinanceApp app)
+    {
         setLayout(new BorderLayout());
 
         JPanel accountListPanel = new JPanel(new GridLayout(0, 1));
@@ -302,8 +346,10 @@ class SelectAccountPanel extends JPanel {
         backButton.addActionListener(e -> app.showUserMenu());
         add(backButton, BorderLayout.SOUTH);
 
-        if (FinanceApp.getCurrentUser() != null) {
-            for (Account account : FinanceApp.getCurrentUser().getAccounts()) {
+        if ( FinanceApp.getCurrentUser() != null )
+        {
+            for ( Account account : FinanceApp.getCurrentUser().getAccounts() )
+            {
                 JButton accountButton = new JButton(account.getAccountNumber());
                 accountButton.addActionListener(e -> {
                     FinanceApp.setCurrentAccount(account);
@@ -315,8 +361,10 @@ class SelectAccountPanel extends JPanel {
     }
 }
 
-class AccountMenuPanel extends JPanel {
-    public AccountMenuPanel(FinanceApp app) {
+class AccountMenuPanel extends JPanel
+{
+    public AccountMenuPanel(FinanceApp app)
+    {
         setLayout(new GridLayout(4, 1));
 
         JButton createTransactionButton = new JButton("Criar Transação");
@@ -340,11 +388,13 @@ class AccountMenuPanel extends JPanel {
     }
 }
 
-class CreateTransactionPanel extends JPanel {
+class CreateTransactionPanel extends JPanel
+{
     private JTextField amountField;
     private JTextField descriptionField;
 
-    public CreateTransactionPanel(FinanceApp app) {
+    public CreateTransactionPanel(FinanceApp app)
+    {
         setLayout(new GridLayout(4, 2));
 
         add(new JLabel("Valor:"));
@@ -366,9 +416,12 @@ class CreateTransactionPanel extends JPanel {
             Expense expense = new Expense(amount, description, date, destination);
             FinanceApp.getCurrentAccount().addTransaction(expense);
 
-            try {
+            try
+            {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 System.out.println("Erro ao salvar transação.");
             }
 
@@ -388,9 +441,12 @@ class CreateTransactionPanel extends JPanel {
             Income income = new Income(amount, description, date, source);
             FinanceApp.getCurrentAccount().addTransaction(income);
 
-            try {
+            try
+            {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 System.out.println("Erro ao salvar transação.");
             }
 
@@ -405,10 +461,12 @@ class CreateTransactionPanel extends JPanel {
     }
 }
 
-class TransactionHistoryPanel extends JPanel {
+class TransactionHistoryPanel extends JPanel
+{
     private JTextArea textArea;
 
-    public TransactionHistoryPanel(FinanceApp app) {
+    public TransactionHistoryPanel(FinanceApp app)
+    {
         setLayout(new BorderLayout());
 
         textArea = new JTextArea();
@@ -421,10 +479,13 @@ class TransactionHistoryPanel extends JPanel {
         add(backButton, BorderLayout.SOUTH);
     }
 
-    public void updateTransactionHistory() {
+    public void updateTransactionHistory()
+    {
         textArea.setText("");
-        if (FinanceApp.getCurrentAccount() != null) {
-            for (Transaction transaction : FinanceApp.getCurrentAccount().getTransactions()) {
+        if ( FinanceApp.getCurrentAccount() != null )
+        {
+            for ( Transaction transaction : FinanceApp.getCurrentAccount().getTransactions() )
+            {
                 textArea.append(transaction.getDate() + " - " + transaction.getDescription() + " - " + transaction.getAmount() + "\n");
             }
         }
