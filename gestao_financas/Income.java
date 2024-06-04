@@ -14,4 +14,18 @@ public class Income extends Transaction
     {
         return source;
     }
-}
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+    
+    @Override
+    public String toString() {
+        return ("Transaction details:"
+                + "\nCategory: " + super.getCategory()
+                + "\nAmount: " + super.getAmount() + "€\n"
+                + "Description: " + super.getDescription() + "\n"
+                + "Date: " + super.getDate() + "\n"
+                + "\nDestination: " + this.source);
+    }
+} 

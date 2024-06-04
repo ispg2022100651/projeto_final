@@ -6,7 +6,7 @@ public class Account implements Serializable
     private String accountNumber;
     private double balance;
     private ArrayList<Transaction> transactions;
-
+ 
     public Account(String accountNumber)
     {
         this.accountNumber = accountNumber;
@@ -40,5 +40,11 @@ public class Account implements Serializable
         {
             balance += transaction.getAmount();
         }
+    }
+
+    public String toString() {
+        return ("Transaction details:"
+                        + "\nAccount Number: " + this.accountNumber
+                        + "\nBalance: " + this.balance +"€");
     }
 }

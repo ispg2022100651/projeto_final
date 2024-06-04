@@ -14,4 +14,18 @@ public class Expense extends Transaction
     {
         return destination;
     }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    @Override 
+    public String toString() {
+        return ("Transaction details:"
+                        + "\nCategory: " + super.getCategory()
+                        + "\nAmount: " + super.getAmount() + "€\n"
+                        + "Description: " + super.getDescription() + "\n"
+                        + "Date: " + super.getDate() + "\n"
+                        + "\nDestination: " + this.destination);
+    }
 }

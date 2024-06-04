@@ -68,7 +68,7 @@ public class Transaction implements Serializable {
     public boolean equals(Transaction ref) {
         return (this.amount == ref.amount && this.description == ref.description && this.date == ref.date);
     }
-    
+     
     @Override
     public Transaction clone() {
         return(this);
