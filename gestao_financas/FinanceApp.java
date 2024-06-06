@@ -7,6 +7,7 @@ import java.util.Date;
 public class FinanceApp extends JFrame
 {
     private static ArrayList<User> users = new ArrayList<>();
+    private static ArrayList<Account> accounts = new ArrayList<>();
     private static User currentUser = null;
     private static Account currentAccount = null;
 
@@ -24,6 +25,15 @@ public class FinanceApp extends JFrame
         catch (IOException | ClassNotFoundException e)
         {
             System.out.println("Nenhum utilizador encontrado.");
+        }
+
+        try
+        {
+            accounts = FileManager.loadAccounts();
+        }
+        catch (IOException | ClassNotFoundException e)
+        {
+            System.out.println("Nenhuma conta encontrada.");
         }
 
         setTitle("Aplicação de Finanças Pessoais");
@@ -381,6 +391,7 @@ class CreateTransactionPanel extends JPanel
 {
     private JTextField amountField;
     private JTextField descriptionField;
+    private JComboBox<Category> categoryComboBox;
 
     public CreateTransactionPanel(FinanceApp app)
     {
@@ -393,6 +404,10 @@ class CreateTransactionPanel extends JPanel
         add(new JLabel("Descrição:"));
         descriptionField = new JTextField();
         add(descriptionField);
+
+        JLabel categoryLabel = new JLabel("Category:");
+        Category[] categories = {new Category("Food"), new Category("Transport"), new Category("Entertainment")};
+        categoryComboBox = new JComboBox<>(categories);
 
         JButton expenseButton = new JButton("Despesa");
         expenseButton.addActionListener(e -> {

@@ -3,8 +3,8 @@ import java.util.ArrayList;
 
 public class FileManager
 {
-    private static final String USER_FILE = "users.dat";
-    private static final String ACCOUNT_FILE = "accounts.dat";
+    private static final String USER_FILE = "gestao_financas/users.dat";
+    private static final String ACCOUNT_FILE = "gestao_financas/accounts.dat";
 
     public static void saveUsers(ArrayList<User> users) throws IOException
     {
