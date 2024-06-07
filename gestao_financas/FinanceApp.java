@@ -543,7 +543,7 @@ class TransactionHistoryPanel extends JPanel
             for ( Transaction transaction : FinanceApp.getCurrentAccount().getTransactions() )
             {
                 textArea.append(transaction.getDate() + " - " + transaction.getDescription() + " - " + transaction.getAmount() + "\n");
-                }
+            }
         }
     }
 }
