@@ -27,31 +27,22 @@ public class FinanceApp extends JFrame
             System.out.println("Nenhum utilizador encontrado.");
         }
 
-        try
-        {
-            accounts = FileManager.loadAccounts();
-        }
-        catch (IOException | ClassNotFoundException e)
-        {
-            System.out.println("Nenhuma conta encontrada.");
-        }
-
         setTitle("Aplicação de Finanças Pessoais");
         setSize(400, 300);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        mainPanel.add(new MainMenuPanel(this), "MainMenu");
-        mainPanel.add(new RegisterPanel(this), "Register");
-        mainPanel.add(new LoginPanel(this), "Login");
-        mainPanel.add(new UserMenuPanel(this), "UserMenu");
-        mainPanel.add(new AccountMenuPanel(this), "AccountMenu");
-        mainPanel.add(new CreateTransactionPanel(this), "CreateTransaction");
+        //mainPanel.add(new MainMenuPanel(this), "MainMenu");
+        //mainPanel.add(new RegisterPanel(this), "Register");
+        //mainPanel.add(new LoginPanel(this), "Login");
+        //mainPanel.add(new UserMenuPanel(this), "UserMenu");
+        //mainPanel.add(new AccountMenuPanel(this), "AccountMenu");
+        //mainPanel.add(new CreateTransactionPanel(this), "CreateTransaction");
 
-        transactionHistoryPanel = new TransactionHistoryPanel(this);
-        mainPanel.add(transactionHistoryPanel, "TransactionHistory");
+        //transactionHistoryPanel = new TransactionHistoryPanel(this);
+        //mainPanel.add(transactionHistoryPanel, "TransactionHistory");
 
-        mainPanel.add(new CreateAccountPanel(this), "CreateAccount");
-        mainPanel.add(new SelectAccountPanel(this), "SelectAccount");
+        //mainPanel.add(new CreateAccountPanel(this), "CreateAccount");
+        //mainPanel.add(new SelectAccountPanel(this), "SelectAccount");
 
         add(mainPanel);
         showMainMenu();
@@ -59,42 +50,51 @@ public class FinanceApp extends JFrame
 
     public void showMainMenu()
     {
+        mainPanel.add(new MainMenuPanel(this), "MainMenu");
         cardLayout.show(mainPanel, "MainMenu");
     }
 
     public void showRegisterPanel()
     {
+        mainPanel.add(new RegisterPanel(this), "Register");
         cardLayout.show(mainPanel, "Register");
     }
 
     public void showLoginPanel()
     {
+        mainPanel.add(new LoginPanel(this), "Login");
         cardLayout.show(mainPanel, "Login");
     }
 
     public void showUserMenu()
     {
+        mainPanel.add(new UserMenuPanel(this), "UserMenu");
         cardLayout.show(mainPanel, "UserMenu");
     }
 
     public void showAccountMenu()
     {
+        mainPanel.add(new AccountMenuPanel(this), "AccountMenu");
         cardLayout.show(mainPanel, "AccountMenu");
     }
 
     public void showCreateTransactionPanel()
     {
+        mainPanel.add(new CreateTransactionPanel(this), "CreateTransaction");
         cardLayout.show(mainPanel, "CreateTransaction");
     }
 
     public void showTransactionHistoryPanel()
     {
+        transactionHistoryPanel = new TransactionHistoryPanel(this);
+        mainPanel.add(transactionHistoryPanel, "TransactionHistory");
         transactionHistoryPanel.updateTransactionHistory();
         cardLayout.show(mainPanel, "TransactionHistory");
     }
 
     public void showCreateAccountPanel()
     {
+        mainPanel.add(new CreateAccountPanel(this), "CreateAccount");
         cardLayout.show(mainPanel, "CreateAccount");
     }
 
@@ -273,15 +273,40 @@ class UserMenuPanel extends JPanel
 {
     public UserMenuPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(4, 1));
+        setLayout(new GridLayout(3, 1));
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+
+        User currentUser = FinanceApp.getCurrentUser();
+
+        // User Details
+        gbc.gridy++;
+        JLabel userDetailsLabel = new JLabel("<html>" + currentUser.toString().replace("\n", "<br>") + "</html>");
+        add(userDetailsLabel, gbc);
+        // Buttons
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+
+        JPanel buttonsPanel = new JPanel(new FlowLayout());
+        // Create Account Button
         JButton createAccountButton = new JButton("Criar Conta");
         createAccountButton.addActionListener(e -> app.showCreateAccountPanel());
-        add(createAccountButton);
-
+        buttonsPanel.add(createAccountButton, gbc);
+        // Load Account Button
         JButton selectAccountButton = new JButton("Entrar em Conta Existente");
         selectAccountButton.addActionListener(e -> app.showSelectAccountPanel());
-        add(selectAccountButton);
+        buttonsPanel.add(selectAccountButton, gbc);
+
+        add(buttonsPanel, gbc);
+        // Logout Button
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
 
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
@@ -289,7 +314,7 @@ class UserMenuPanel extends JPanel
             FinanceApp.setCurrentAccount(null);
             app.showMainMenu();
         });
-        add(logoutButton);
+        add(logoutButton, gbc);
     }
 }
 
@@ -395,7 +420,7 @@ class CreateTransactionPanel extends JPanel
 
     public CreateTransactionPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(4, 2));
+        setLayout(new GridLayout(5, 2));
 
         add(new JLabel("Valor:"));
         amountField = new JTextField();
@@ -405,9 +430,10 @@ class CreateTransactionPanel extends JPanel
         descriptionField = new JTextField();
         add(descriptionField);
 
-        JLabel categoryLabel = new JLabel("Category:");
-        Category[] categories = {new Category("Food"), new Category("Transport"), new Category("Entertainment")};
+        add(new JLabel("Categoria:"));
+        Category[] categories = {new Category("Transferência"), new Category("Levantamento"), new Category("Depósito")};
         categoryComboBox = new JComboBox<>(categories);
+        add(categoryComboBox);
 
         JButton expenseButton = new JButton("Despesa");
         expenseButton.addActionListener(e -> {
@@ -417,7 +443,7 @@ class CreateTransactionPanel extends JPanel
 
             String destination = JOptionPane.showInputDialog(this, "Destino:");
 
-            Category category = new Category("Transferência");
+            Category category = (Category) categoryComboBox.getSelectedItem();
             Transaction expense = new Expense(amount, description, date, category, destination);
             FinanceApp.getCurrentAccount().addTransaction(expense);
 
@@ -443,7 +469,7 @@ class CreateTransactionPanel extends JPanel
 
             String source = JOptionPane.showInputDialog(this, "Origem:");
 
-            Category category = new Category("Transferência");
+            Category category = (Category) categoryComboBox.getSelectedItem();
             Transaction income = new Income(amount, description, date, category, source);
             FinanceApp.getCurrentAccount().addTransaction(income);
 

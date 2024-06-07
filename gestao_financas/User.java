@@ -78,12 +78,12 @@ public class User implements Serializable {
         builder.append("Email: ").append(this.email).append("\n");
         builder.append("CC: ").append(this.cc).append("\n");
         
-        if (this.accounts.size() > 0) {
-            builder.append("Accounts:\n");
-            for (int i = 0; i < this.accounts.size(); i++) {
-                builder.append("[").append(i + 1).append("] - Account Number: ").append(this.accounts.get(i)).append("\n");
-            }
-        }
+        // if (this.accounts.size() > 0) {
+        //     builder.append("Accounts:\n");
+        //     for (int i = 0; i < this.accounts.size(); i++) {
+        //         builder.append("[").append(i + 1).append("] - Account Number: ").append(this.accounts.get(i)).append("\n");
+        //     }
+        // }
         
         return builder.toString();
     }

@@ -24,8 +24,7 @@ public class Category
     } 
 
     public String toString() {
-        return ("Category details:"
-                        + "\nName: " + this.name );
+        return ( this.name );
     }
     
     public void print() {
