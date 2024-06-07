@@ -6,13 +6,20 @@ public class Account implements Serializable
 {
     private String accountNumber;
     private double balance;
-    private List<Transaction> transactions = new ArrayList<Transaction>();
+    private List<Transaction> transactions;
  
     public Account(String accountNumber, double balance, List<Transaction> transactions)
     {
         this.accountNumber = accountNumber;
         this.balance = balance;
-        this.transactions = transactions;
+        if (transactions == null)
+        {
+            this.transactions = new ArrayList<Transaction>();
+        }
+        else 
+        {
+            this.transactions = transactions;
+        }
     }
 
     public Account(Account ref) {

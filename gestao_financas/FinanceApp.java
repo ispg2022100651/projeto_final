@@ -478,7 +478,7 @@ class CreateTransactionPanel extends JPanel
 
             String destination = JOptionPane.showInputDialog(this, "Destino:");
             Category category = (Category) categoryComboBox.getSelectedItem();
-
+            System.out.println(destination);
             if ( isFixed )
             {
                 Transaction expense = new FixedExpense(amount, description, date, category, destination, "Semana", 5);
