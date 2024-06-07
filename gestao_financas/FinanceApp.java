@@ -417,10 +417,11 @@ class CreateTransactionPanel extends JPanel
     private JTextField amountField;
     private JTextField descriptionField;
     private JComboBox<Category> categoryComboBox;
+    private JCheckBox fixedCheckBox;
 
     public CreateTransactionPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(5, 2));
+        setLayout(new GridLayout(6, 2));
 
         add(new JLabel("Valor:"));
         amountField = new JTextField();
@@ -435,17 +436,31 @@ class CreateTransactionPanel extends JPanel
         categoryComboBox = new JComboBox<>(categories);
         add(categoryComboBox);
 
+        add(new JLabel("Fixed:"));
+        fixedCheckBox = new JCheckBox();
+        add(fixedCheckBox);
+
         JButton expenseButton = new JButton("Despesa");
         expenseButton.addActionListener(e -> {
             double amount = Double.parseDouble(amountField.getText());
             String description = descriptionField.getText();
             Date date = new Date();
+            boolean isFixed = fixedCheckBox.isSelected();
 
             String destination = JOptionPane.showInputDialog(this, "Destino:");
-
             Category category = (Category) categoryComboBox.getSelectedItem();
-            Transaction expense = new Expense(amount, description, date, category, destination);
-            FinanceApp.getCurrentAccount().addTransaction(expense);
+
+            if ( isFixed )
+            {
+                Transaction expense = new FixedExpense(amount, description, date, category, destination, "Semana", 5);
+                FinanceApp.getCurrentAccount().addTransaction(expense);
+            }
+            else
+            {
+                System.out.println(FinanceApp.getCurrentAccount() + "teste");
+                Transaction expense = new Expense(amount, description, date, category, destination); // TRANSACTION NÃO TEM DESTINATION
+                FinanceApp.getCurrentAccount().addTransaction(expense);
+            }
 
             try
             {
@@ -466,12 +481,21 @@ class CreateTransactionPanel extends JPanel
             double amount = Double.parseDouble(amountField.getText());
             String description = descriptionField.getText();
             Date date = new Date();
+            boolean isFixed = fixedCheckBox.isSelected();
 
             String source = JOptionPane.showInputDialog(this, "Origem:");
-
             Category category = (Category) categoryComboBox.getSelectedItem();
-            Transaction income = new Income(amount, description, date, category, source);
-            FinanceApp.getCurrentAccount().addTransaction(income);
+
+            if ( isFixed )
+            {
+                Transaction income = new FixedIncome(amount, description, date, category, source, "Semana", 5);
+                FinanceApp.getCurrentAccount().addTransaction(income);
+            }
+            else
+            {
+                Transaction income = new Income(amount, description, date, category, source);
+                FinanceApp.getCurrentAccount().addTransaction(income);
+            }
 
             try
             {

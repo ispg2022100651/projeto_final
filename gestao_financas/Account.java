@@ -51,10 +51,14 @@ public class Account implements Serializable
         this.transactions.add(transaction);
     }
 
-    public String toString() {
-        return ("Transaction details:"
-                        + "\nAccount Number: " + this.accountNumber
-                        + "\nBalance: " + this.balance +"€");
+    public String toString()
+    {
+        StringBuilder builder = new StringBuilder();
+        builder.append("Transaction details:\n");
+        builder.append("Account Number: ").append(this.accountNumber).append("\n");
+        builder.append("Balance: ").append(this.balance).append(" € \n");
+
+        return builder.toString();
     }
 
     public void print() {

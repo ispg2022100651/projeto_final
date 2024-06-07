@@ -13,6 +13,7 @@ public class Transaction implements Serializable
         this.amount = amount;
         this.description = description;
         this.date = date;
+        this.category = category;
     }
 
     public Transaction(Transaction ref) {
@@ -49,7 +50,7 @@ public class Transaction implements Serializable
     public void setDate(Date date) {
         this.date = date;
     }
-
+    
     public Category getCategory() {
         return this.category;
     }
