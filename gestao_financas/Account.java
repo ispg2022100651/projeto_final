@@ -55,10 +55,9 @@ public class Account implements Serializable
     public String toString()
     {
         StringBuilder builder = new StringBuilder();
-        builder.append("Transaction details:\n");
+        builder.append("Account details:\n");
         builder.append("Account Number: ").append(this.accountNumber).append("\n");
         builder.append("Balance: ").append(this.balance).append(" € \n");
-        builder.append("Transactions: ").append(this.transactions).append("\n");
 
         return builder.toString();
     }
@@ -66,7 +65,6 @@ public class Account implements Serializable
     public void print() {
         System.out.println("Transaction details:"
         + "\nAccount Number: " + this.accountNumber
-        + "\nBalance: " + this.balance +"€"
-        + "\nTransactions: " + this.transactions);
+        + "\nBalance: " + this.balance +"€");
     }
 }

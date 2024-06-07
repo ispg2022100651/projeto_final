@@ -398,17 +398,31 @@ class AccountMenuPanel extends JPanel
     {
         setLayout(new GridLayout(4, 1));
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 2;
+
+        Account currentAccount = FinanceApp.getCurrentAccount();
+
+        // Account Details
+        gbc.gridy++;
+        JLabel accountDetailsLabel = new JLabel("<html>" + currentAccount.toString().replace("\n", "<br>") + "</html>");
+        add(accountDetailsLabel, gbc);
+
         JButton createTransactionButton = new JButton("Criar Transação");
         createTransactionButton.addActionListener(e -> app.showCreateTransactionPanel());
-        add(createTransactionButton);
+        add(createTransactionButton, gbc);
 
         JButton viewTransactionHistoryButton = new JButton("Ver Histórico de Transações");
         viewTransactionHistoryButton.addActionListener(e -> app.showTransactionHistoryPanel());
-        add(viewTransactionHistoryButton);
+        add(viewTransactionHistoryButton, gbc);
 
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showUserMenu());
-        add(backButton);
+        add(backButton, gbc);
     }
 }
 
@@ -423,23 +437,37 @@ class CreateTransactionPanel extends JPanel
     {
         setLayout(new GridLayout(6, 2));
 
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.gridwidth = 3;
+
+        Account currentAccount = FinanceApp.getCurrentAccount();
+
+        // Account Details
+        gbc.gridy++;
+        JLabel accountDetailsLabel = new JLabel("<html>" + currentAccount.toString().replace("\n", "<br>") + "</html>");
+        add(accountDetailsLabel, gbc);
+
         add(new JLabel("Valor:"));
         amountField = new JTextField();
-        add(amountField);
+        add(amountField, gbc);
 
         add(new JLabel("Descrição:"));
         descriptionField = new JTextField();
-        add(descriptionField);
+        add(descriptionField, gbc);
 
         add(new JLabel("Categoria:"));
         Category[] categories = {new Category("Transferência"), new Category("Levantamento"), new Category("Depósito")};
         categoryComboBox = new JComboBox<>(categories);
-        add(categoryComboBox);
+        add(categoryComboBox, gbc);
         System.out.println(FinanceApp.getCurrentAccount());
 
         add(new JLabel("Fixed:"));
         fixedCheckBox = new JCheckBox();
-        add(fixedCheckBox);
+        add(fixedCheckBox, gbc);
 
         JButton expenseButton = new JButton("Despesa");
         expenseButton.addActionListener(e -> {
@@ -475,7 +503,7 @@ class CreateTransactionPanel extends JPanel
             JOptionPane.showMessageDialog(this, "Despesa criada com sucesso!");
             app.showAccountMenu();
         });
-        add(expenseButton);
+        add(expenseButton, gbc);
 
         JButton incomeButton = new JButton("Receita");
         incomeButton.addActionListener(e -> {
@@ -510,11 +538,11 @@ class CreateTransactionPanel extends JPanel
             JOptionPane.showMessageDialog(this, "Receita criada com sucesso!");
             app.showAccountMenu();
         });
-        add(incomeButton);
+        add(incomeButton, gbc);
 
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showAccountMenu());
-        add(backButton);
+        add(backButton, gbc);
     }
 }
 
