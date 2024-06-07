@@ -435,6 +435,7 @@ class CreateTransactionPanel extends JPanel
         Category[] categories = {new Category("Transferência"), new Category("Levantamento"), new Category("Depósito")};
         categoryComboBox = new JComboBox<>(categories);
         add(categoryComboBox);
+        System.out.println(FinanceApp.getCurrentAccount());
 
         add(new JLabel("Fixed:"));
         fixedCheckBox = new JCheckBox();

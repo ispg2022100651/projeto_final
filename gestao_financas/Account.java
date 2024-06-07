@@ -1,13 +1,14 @@
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Account implements Serializable
 {
     private String accountNumber;
     private double balance;
-    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
+    private List<Transaction> transactions = new ArrayList<Transaction>();
  
-    public Account(String accountNumber, double balance, ArrayList<Transaction> transactions)
+    public Account(String accountNumber, double balance, List<Transaction> transactions)
     {
         this.accountNumber = accountNumber;
         this.balance = balance;
@@ -19,7 +20,7 @@ public class Account implements Serializable
     }
 
     public Account() {
-        this("", 0.0, new ArrayList<>());
+        this("", 0.0, null);
     }
 
     public String getAccountNumber()
@@ -32,7 +33,7 @@ public class Account implements Serializable
         return this.balance;
     }
 
-    public ArrayList<Transaction> getTransactions()
+    public List<Transaction> getTransactions()
     {
         return this.transactions;
     }
