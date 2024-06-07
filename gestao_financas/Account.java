@@ -5,7 +5,7 @@ public class Account implements Serializable
 {
     private String accountNumber;
     private double balance;
-    private ArrayList<Transaction> transactions;
+    private ArrayList<Transaction> transactions = new ArrayList<Transaction>();
  
     public Account(String accountNumber, double balance, ArrayList<Transaction> transactions)
     {
@@ -19,7 +19,7 @@ public class Account implements Serializable
     }
 
     public Account() {
-        this("", 0.0, null);
+        this("", 0.0, new ArrayList<>());
     }
 
     public String getAccountNumber()
@@ -57,6 +57,7 @@ public class Account implements Serializable
         builder.append("Transaction details:\n");
         builder.append("Account Number: ").append(this.accountNumber).append("\n");
         builder.append("Balance: ").append(this.balance).append(" € \n");
+        builder.append("Transactions: ").append(this.transactions).append("\n");
 
         return builder.toString();
     }
@@ -64,6 +65,7 @@ public class Account implements Serializable
     public void print() {
         System.out.println("Transaction details:"
         + "\nAccount Number: " + this.accountNumber
-        + "\nBalance: " + this.balance +"€");
+        + "\nBalance: " + this.balance +"€"
+        + "\nTransactions: " + this.transactions);
     }
 }
