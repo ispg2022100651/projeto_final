@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.awt.event.*;
 
 public class FinanceApp extends JFrame
 {
@@ -432,42 +433,85 @@ class CreateTransactionPanel extends JPanel
     private JTextField descriptionField;
     private JComboBox<Category> categoryComboBox;
     private JCheckBox fixedCheckBox;
+    private JComboBox<String> typesComboBox;
+    private JTextField frequencyField;
 
     public CreateTransactionPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(6, 2));
+        setLayout(new GridBagLayout());
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 4;
+        gbc.gridwidth = 2;
 
         Account currentAccount = FinanceApp.getCurrentAccount();
 
         // Account Details
-        gbc.gridy++;
         JLabel accountDetailsLabel = new JLabel("<html>" + currentAccount.toString().replace("\n", "<br>") + "</html>");
         add(accountDetailsLabel, gbc);
 
-        add(new JLabel("Valor:"));
+        gbc.gridwidth = 1;
+        gbc.gridy++;
+        
+        add(new JLabel("Valor:"), gbc);
+        gbc.gridx = 1;
         amountField = new JTextField();
         add(amountField, gbc);
 
-        add(new JLabel("Descrição:"));
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Descrição:"), gbc);
+        gbc.gridx = 1;
         descriptionField = new JTextField();
         add(descriptionField, gbc);
 
-        add(new JLabel("Categoria:"));
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Categoria:"), gbc);
+        gbc.gridx = 1;
         Category[] categories = {new Category("Transferência"), new Category("Levantamento"), new Category("Depósito")};
         categoryComboBox = new JComboBox<>(categories);
         add(categoryComboBox, gbc);
 
-        add(new JLabel("Fixed:"));
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Fixed:"), gbc);
+        gbc.gridx = 1;
         fixedCheckBox = new JCheckBox();
         add(fixedCheckBox, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Tipo:"), gbc);
+        gbc.gridx = 1;
+        String[] types = {"Semanalmente", "Mensalmente", "Anualmente"};
+        typesComboBox = new JComboBox<>(types);
+        add(typesComboBox, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Frequência:"), gbc);
+        gbc.gridx = 1;
+        frequencyField = new JTextField();
+        add(frequencyField, gbc);
+
+        // Initially disable type and frequency fields
+        typesComboBox.setEnabled(false);
+        frequencyField.setEnabled(false);
+
+        // Add item listener to fixedCheckBox
+        fixedCheckBox.addItemListener(e -> {
+            boolean selected = e.getStateChange() == ItemEvent.SELECTED;
+            typesComboBox.setEnabled(selected);
+            frequencyField.setEnabled(selected);
+        });
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 1;
         JButton expenseButton = new JButton("Despesa");
         expenseButton.addActionListener(e -> {
             double amount = Double.parseDouble(amountField.getText());
@@ -476,25 +520,22 @@ class CreateTransactionPanel extends JPanel
             boolean isFixed = fixedCheckBox.isSelected();
 
             String destination = JOptionPane.showInputDialog(this, "Destino:");
+
             Category category = (Category) categoryComboBox.getSelectedItem();
-            
-            if ( isFixed )
-            {
-                Transaction expense = new FixedExpense(amount, description, date, category, destination, "Semana", 5);
+            String type = (String) typesComboBox.getSelectedItem();
+            int frequency = Integer.parseInt(frequencyField.getText());
+
+            if (isFixed) {
+                Transaction expense = new FixedExpense(amount, description, date, category, destination, type, frequency);
                 FinanceApp.getCurrentAccount().addTransaction(expense);
-            }
-            else
-            {
-                Transaction expense = new Expense(amount, description, date, category, destination); // TRANSACTION NÃO TEM DESTINATION
+            } else {
+                Transaction expense = new Expense(amount, description, date, category, destination);
                 FinanceApp.getCurrentAccount().addTransaction(expense);
             }
 
-            try
-            {
+            try {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            }
-            catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("Erro ao salvar transação.");
             }
 
@@ -503,6 +544,7 @@ class CreateTransactionPanel extends JPanel
         });
         add(expenseButton, gbc);
 
+        gbc.gridx = 1;
         JButton incomeButton = new JButton("Receita");
         incomeButton.addActionListener(e -> {
             double amount = Double.parseDouble(amountField.getText());
@@ -513,23 +555,17 @@ class CreateTransactionPanel extends JPanel
             String source = JOptionPane.showInputDialog(this, "Origem:");
             Category category = (Category) categoryComboBox.getSelectedItem();
 
-            if ( isFixed )
-            {
+            if (isFixed) {
                 Transaction income = new FixedIncome(amount, description, date, category, source, "Semana", 5);
                 FinanceApp.getCurrentAccount().addTransaction(income);
-            }
-            else
-            {
+            } else {
                 Transaction income = new Income(amount, description, date, category, source);
                 FinanceApp.getCurrentAccount().addTransaction(income);
             }
 
-            try
-            {
+            try {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            }
-            catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("Erro ao salvar transação.");
             }
 
@@ -538,6 +574,9 @@ class CreateTransactionPanel extends JPanel
         });
         add(incomeButton, gbc);
 
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showAccountMenu());
         add(backButton, gbc);
