@@ -442,7 +442,7 @@ class CreateTransactionPanel extends JPanel
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.gridx = 0;
         gbc.gridy = 0;
-        gbc.gridwidth = 3;
+        gbc.gridwidth = 4;
 
         Account currentAccount = FinanceApp.getCurrentAccount();
 
@@ -463,7 +463,6 @@ class CreateTransactionPanel extends JPanel
         Category[] categories = {new Category("Transferência"), new Category("Levantamento"), new Category("Depósito")};
         categoryComboBox = new JComboBox<>(categories);
         add(categoryComboBox, gbc);
-        System.out.println(FinanceApp.getCurrentAccount());
 
         add(new JLabel("Fixed:"));
         fixedCheckBox = new JCheckBox();
@@ -478,7 +477,7 @@ class CreateTransactionPanel extends JPanel
 
             String destination = JOptionPane.showInputDialog(this, "Destino:");
             Category category = (Category) categoryComboBox.getSelectedItem();
-            System.out.println(destination);
+            
             if ( isFixed )
             {
                 Transaction expense = new FixedExpense(amount, description, date, category, destination, "Semana", 5);
@@ -486,7 +485,6 @@ class CreateTransactionPanel extends JPanel
             }
             else
             {
-                System.out.println(FinanceApp.getCurrentAccount() + "teste");
                 Transaction expense = new Expense(amount, description, date, category, destination); // TRANSACTION NÃO TEM DESTINATION
                 FinanceApp.getCurrentAccount().addTransaction(expense);
             }
