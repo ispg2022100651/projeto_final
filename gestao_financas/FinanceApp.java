@@ -29,21 +29,9 @@ public class FinanceApp extends JFrame
         }
 
         setTitle("Aplicação de Finanças Pessoais");
-        setSize(400, 300);
+        setSize(640, 480);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-        //mainPanel.add(new MainMenuPanel(this), "MainMenu");
-        //mainPanel.add(new RegisterPanel(this), "Register");
-        //mainPanel.add(new LoginPanel(this), "Login");
-        //mainPanel.add(new UserMenuPanel(this), "UserMenu");
-        //mainPanel.add(new AccountMenuPanel(this), "AccountMenu");
-        //mainPanel.add(new CreateTransactionPanel(this), "CreateTransaction");
-
-        //transactionHistoryPanel = new TransactionHistoryPanel(this);
-        //mainPanel.add(transactionHistoryPanel, "TransactionHistory");
-
-        //mainPanel.add(new CreateAccountPanel(this), "CreateAccount");
-        //mainPanel.add(new SelectAccountPanel(this), "SelectAccount");
+        setLocationRelativeTo(null);
 
         add(mainPanel);
         showMainMenu();
@@ -154,19 +142,28 @@ class MainMenuPanel extends JPanel
 {
     public MainMenuPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(3, 1));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10); // Espaçamento entre os botões
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         JButton registerButton = new JButton("Registar Utilizador");
         registerButton.addActionListener(e -> app.showRegisterPanel());
-        add(registerButton);
+        add(registerButton, gbc);
 
+        gbc.gridy++;
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(e -> app.showLoginPanel());
-        add(loginButton);
+        add(loginButton, gbc);
 
+        gbc.gridy++;
         JButton exitButton = new JButton("Sair");
         exitButton.addActionListener(e -> System.exit(0));
-        add(exitButton);
+        add(exitButton, gbc);
     }
 }
 
@@ -179,23 +176,44 @@ class RegisterPanel extends JPanel
 
     public RegisterPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(5, 2));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        add(new JLabel("Nome:"));
-        nameField = new JTextField();
-        add(nameField);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
-        add(new JLabel("Email:"));
-        emailField = new JTextField();
-        add(emailField);
+        add(new JLabel("Nome:"), gbc);
+        gbc.gridx = 1;
+        nameField = new JTextField(20);
+        add(nameField, gbc);
 
-        add(new JLabel("Password:"));
-        passwordField = new JPasswordField();
-        add(passwordField);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Email:"), gbc);
+        gbc.gridx = 1;
+        emailField = new JTextField(20);
+        add(emailField, gbc);
 
-        add(new JLabel("CC:"));
-        ccField = new JTextField();
-        add(ccField);
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Password:"), gbc);
+        gbc.gridx = 1;
+        passwordField = new JPasswordField(20);
+        add(passwordField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("CC:"), gbc);
+        gbc.gridx = 1;
+        ccField = new JTextField(20);
+        add(ccField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         JButton registerButton = new JButton("Registar");
         registerButton.addActionListener(e -> {
@@ -207,23 +225,21 @@ class RegisterPanel extends JPanel
             User user = new User(name, email, password, cc);
             FinanceApp.getUsers().add(user);
 
-            try
-            {
+            try {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            }
-            catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("Erro ao salvar utilizadores.");
             }
 
             JOptionPane.showMessageDialog(this, "Utilizador registado com sucesso!");
             app.showMainMenu();
         });
-        add(registerButton);
+        add(registerButton, gbc);
 
+        gbc.gridy++;
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showMainMenu());
-        add(backButton);
+        add(backButton, gbc);
     }
 }
 
@@ -234,25 +250,38 @@ class LoginPanel extends JPanel
 
     public LoginPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(3, 2));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        add(new JLabel("Email:"));
-        emailField = new JTextField();
-        add(emailField);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
-        add(new JLabel("Password:"));
-        passwordField = new JPasswordField();
-        add(passwordField);
+        add(new JLabel("Email:"), gbc);
+        gbc.gridx = 1;
+        emailField = new JTextField(20);
+        add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        add(new JLabel("Password:"), gbc);
+        gbc.gridx = 1;
+        passwordField = new JPasswordField(20);
+        add(passwordField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         JButton loginButton = new JButton("Login");
         loginButton.addActionListener(e -> {
             String email = emailField.getText();
             String password = new String(passwordField.getPassword());
 
-            for ( User user : FinanceApp.getUsers() )
-            {
-                if ( user.getEmail().equals(email) && user.getPassword().equals(password) )
-                {
+            for (User user : FinanceApp.getUsers()) {
+                if (user.getEmail().equals(email) && user.getPassword().equals(password)) {
                     FinanceApp.setCurrentUser(user);
                     JOptionPane.showMessageDialog(this, "Login bem-sucedido!");
                     app.showUserMenu();
@@ -262,11 +291,12 @@ class LoginPanel extends JPanel
 
             JOptionPane.showMessageDialog(this, "Email ou password incorretos.");
         });
-        add(loginButton);
+        add(loginButton, gbc);
 
+        gbc.gridy++;
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showMainMenu());
-        add(backButton);
+        add(backButton, gbc);
     }
 }
 
@@ -274,11 +304,10 @@ class UserMenuPanel extends JPanel
 {
     public UserMenuPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(3, 1));
-
+        setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10, 10, 10, 10);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -286,29 +315,31 @@ class UserMenuPanel extends JPanel
         User currentUser = FinanceApp.getCurrentUser();
 
         // User Details
-        gbc.gridy++;
         JLabel userDetailsLabel = new JLabel("<html>" + currentUser.toString().replace("\n", "<br>") + "</html>");
         add(userDetailsLabel, gbc);
+
         // Buttons
         gbc.gridy++;
         gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         JPanel buttonsPanel = new JPanel(new FlowLayout());
+        
         // Create Account Button
         JButton createAccountButton = new JButton("Criar Conta");
         createAccountButton.addActionListener(e -> app.showCreateAccountPanel());
-        buttonsPanel.add(createAccountButton, gbc);
+        buttonsPanel.add(createAccountButton);
+
         // Load Account Button
         JButton selectAccountButton = new JButton("Entrar em Conta Existente");
         selectAccountButton.addActionListener(e -> app.showSelectAccountPanel());
-        buttonsPanel.add(selectAccountButton, gbc);
+        buttonsPanel.add(selectAccountButton);
 
-        add(buttonsPanel, gbc);
-        // Logout Button
-        gbc.gridx = 0;
         gbc.gridy++;
-        gbc.gridwidth = 2;
+        add(buttonsPanel, gbc);
 
+        // Logout Button
+        gbc.gridy++;
         JButton logoutButton = new JButton("Logout");
         logoutButton.addActionListener(e -> {
             FinanceApp.setCurrentUser(null);
@@ -325,18 +356,30 @@ class CreateAccountPanel extends JPanel
 
     public CreateAccountPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(3, 2));
+        setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        
+        gbc.insets = new Insets(10, 10, 10, 10); // Espaçamento entre os componentes
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
 
-        add(new JLabel("Número da Conta:"));
-        accountNumberField = new JTextField();
-        add(accountNumberField);
+        add(new JLabel("Número da Conta:"), gbc);
+
+        gbc.gridx = 1;
+        accountNumberField = new JTextField(20);
+        add(accountNumberField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
 
         JButton createButton = new JButton("Criar Conta");
         createButton.addActionListener(e -> {
             String accountNumber = accountNumberField.getText();
 
-            if ( accountNumber.isEmpty() )
-            {
+            if (accountNumber.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Por favor, insira o número da conta.");
                 return;
             }
@@ -344,23 +387,21 @@ class CreateAccountPanel extends JPanel
             Account account = new Account(accountNumber, 0.0, null);
             FinanceApp.getCurrentUser().addAccount(account);
 
-            try
-            {
+            try {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            }
-            catch (IOException ex)
-            {
+            } catch (IOException ex) {
                 System.out.println("Erro ao salvar conta.");
             }
 
             JOptionPane.showMessageDialog(this, "Conta criada com sucesso!");
             app.showUserMenu();
         });
-        add(createButton);
+        add(createButton, gbc);
 
+        gbc.gridy++;
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showUserMenu());
-        add(backButton);
+        add(backButton, gbc);
     }
 }
 
@@ -370,24 +411,31 @@ class SelectAccountPanel extends JPanel
     {
         setLayout(new BorderLayout());
 
-        JPanel accountListPanel = new JPanel(new GridLayout(0, 1));
+        // Painel para a lista de contas
+        JPanel accountListPanel = new JPanel(new GridBagLayout());
         JScrollPane scrollPane = new JScrollPane(accountListPanel);
         add(scrollPane, BorderLayout.CENTER);
 
+        // Botão Voltar
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showUserMenu());
         add(backButton, BorderLayout.SOUTH);
 
-        if ( FinanceApp.getCurrentUser() != null )
-        {
-            for ( Account account : FinanceApp.getCurrentUser().getAccounts() )
-            {
+        if (FinanceApp.getCurrentUser() != null) {
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.HORIZONTAL;
+            gbc.insets = new Insets(10, 10, 10, 10);
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+
+            for (Account account : FinanceApp.getCurrentUser().getAccounts()) {
                 JButton accountButton = new JButton(account.getAccountNumber());
                 accountButton.addActionListener(e -> {
                     FinanceApp.setCurrentAccount(account);
                     app.showAccountMenu();
                 });
-                accountListPanel.add(accountButton);
+                accountListPanel.add(accountButton, gbc);
+                gbc.gridy++;
             }
         }
     }
@@ -397,11 +445,11 @@ class AccountMenuPanel extends JPanel
 {
     public AccountMenuPanel(FinanceApp app)
     {
-        setLayout(new GridLayout(4, 1));
-
+        setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
+        
         gbc.fill = GridBagConstraints.HORIZONTAL;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(10, 10, 10, 10);
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.gridwidth = 2;
@@ -409,18 +457,25 @@ class AccountMenuPanel extends JPanel
         Account currentAccount = FinanceApp.getCurrentAccount();
 
         // Account Details
-        gbc.gridy++;
         JLabel accountDetailsLabel = new JLabel("<html>" + currentAccount.toString().replace("\n", "<br>") + "</html>");
         add(accountDetailsLabel, gbc);
 
+        // Create Transaction Button
+        gbc.gridy++;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
         JButton createTransactionButton = new JButton("Criar Transação");
         createTransactionButton.addActionListener(e -> app.showCreateTransactionPanel());
         add(createTransactionButton, gbc);
 
+        // View Transaction History Button
+        gbc.gridy++;
         JButton viewTransactionHistoryButton = new JButton("Ver Histórico de Transações");
         viewTransactionHistoryButton.addActionListener(e -> app.showTransactionHistoryPanel());
         add(viewTransactionHistoryButton, gbc);
 
+        // Back Button
+        gbc.gridy++;
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showUserMenu());
         add(backButton, gbc);
@@ -499,11 +554,13 @@ class CreateTransactionPanel extends JPanel
         add(frequencyField, gbc);
 
         // Initially disable type and frequency fields
-        typesComboBox.setEnabled(false);
-        frequencyField.setEnabled(false);
+        typesComboBox.setEnabled(true);
+        frequencyField.setEnabled(true);
 
         // Add item listener to fixedCheckBox
-        fixedCheckBox.addItemListener(e -> {
+        fixedCheckBox.setSelected(true);
+        fixedCheckBox.addItemListener(e ->
+        {
             boolean selected = e.getStateChange() == ItemEvent.SELECTED;
             typesComboBox.setEnabled(selected);
             frequencyField.setEnabled(selected);
@@ -512,6 +569,7 @@ class CreateTransactionPanel extends JPanel
         gbc.gridx = 0;
         gbc.gridy++;
         gbc.gridwidth = 1;
+
         JButton expenseButton = new JButton("Despesa");
         expenseButton.addActionListener(e -> {
             double amount = Double.parseDouble(amountField.getText());
@@ -519,23 +577,30 @@ class CreateTransactionPanel extends JPanel
             Date date = new Date();
             boolean isFixed = fixedCheckBox.isSelected();
 
+            Category category = (Category) categoryComboBox.getSelectedItem();
+
             String destination = JOptionPane.showInputDialog(this, "Destino:");
 
-            Category category = (Category) categoryComboBox.getSelectedItem();
-            String type = (String) typesComboBox.getSelectedItem();
-            int frequency = Integer.parseInt(frequencyField.getText());
+            if (isFixed)
+            {
+                String type = (String) typesComboBox.getSelectedItem();
+                int frequency = Integer.parseInt(frequencyField.getText());
 
-            if (isFixed) {
                 Transaction expense = new FixedExpense(amount, description, date, category, destination, type, frequency);
                 FinanceApp.getCurrentAccount().addTransaction(expense);
-            } else {
+            }
+            else
+            {
                 Transaction expense = new Expense(amount, description, date, category, destination);
                 FinanceApp.getCurrentAccount().addTransaction(expense);
             }
 
-            try {
+            try
+            {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 System.out.println("Erro ao salvar transação.");
             }
 
@@ -552,20 +617,30 @@ class CreateTransactionPanel extends JPanel
             Date date = new Date();
             boolean isFixed = fixedCheckBox.isSelected();
 
-            String source = JOptionPane.showInputDialog(this, "Origem:");
             Category category = (Category) categoryComboBox.getSelectedItem();
 
-            if (isFixed) {
-                Transaction income = new FixedIncome(amount, description, date, category, source, "Semana", 5);
+            String source = JOptionPane.showInputDialog(this, "Origem:");
+
+            if (isFixed)
+            {
+                String type = (String) typesComboBox.getSelectedItem();
+                int frequency = Integer.parseInt(frequencyField.getText());
+
+                Transaction income = new FixedIncome(amount, description, date, category, source, type, frequency);
                 FinanceApp.getCurrentAccount().addTransaction(income);
-            } else {
+            }
+            else
+            {
                 Transaction income = new Income(amount, description, date, category, source);
                 FinanceApp.getCurrentAccount().addTransaction(income);
             }
 
-            try {
+            try
+            {
                 FileManager.saveUsers(FinanceApp.getUsers());
-            } catch (IOException ex) {
+            }
+            catch (IOException ex)
+            {
                 System.out.println("Erro ao salvar transação.");
             }
 
@@ -590,15 +665,30 @@ class TransactionHistoryPanel extends JPanel
     public TransactionHistoryPanel(FinanceApp app)
     {
         setLayout(new BorderLayout());
-        
+
+        // Detalhes da conta
+        Account currentAccount = FinanceApp.getCurrentAccount();
+        JLabel accountDetailsLabel = new JLabel("<html>" + currentAccount.toString().replace("\n", "<br>") + "</html>");
+        JPanel detailsPanel = new JPanel();
+        detailsPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        detailsPanel.add(accountDetailsLabel);
+        add(detailsPanel, BorderLayout.NORTH);
+
+        // Área de texto para o histórico de transações
         textArea = new JTextArea();
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
         add(scrollPane, BorderLayout.CENTER);
 
+        // Painel de botões
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        
         JButton backButton = new JButton("Voltar");
         backButton.addActionListener(e -> app.showAccountMenu());
-        add(backButton, BorderLayout.SOUTH);
+        buttonPanel.add(backButton);
+        
+        add(buttonPanel, BorderLayout.SOUTH);
     }
     
     public void updateTransactionHistory()
