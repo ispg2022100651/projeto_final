@@ -3,6 +3,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.text.SimpleDateFormat;
 import java.awt.event.*;
 
 public class FinanceApp extends JFrame
@@ -586,8 +587,8 @@ class CreateTransactionPanel extends JPanel
                 String type = (String) typesComboBox.getSelectedItem();
                 int frequency = Integer.parseInt(frequencyField.getText());
 
-                Transaction expense = new FixedExpense(amount, description, date, category, destination, type, frequency);
-                FinanceApp.getCurrentAccount().addTransaction(expense);
+                FixedExpense expense = new FixedExpense(amount, description, date, category, destination, type, frequency);
+                FinanceApp.getCurrentAccount().addFixedExpenseTransaction(expense);
             }
             else
             {
@@ -626,8 +627,8 @@ class CreateTransactionPanel extends JPanel
                 String type = (String) typesComboBox.getSelectedItem();
                 int frequency = Integer.parseInt(frequencyField.getText());
 
-                Transaction income = new FixedIncome(amount, description, date, category, source, type, frequency);
-                FinanceApp.getCurrentAccount().addTransaction(income);
+                FixedIncome income = new FixedIncome(amount, description, date, category, source, type, frequency);
+                FinanceApp.getCurrentAccount().addFixedIncomeTransaction(income);
             }
             else
             {
@@ -698,7 +699,17 @@ class TransactionHistoryPanel extends JPanel
         {
             for ( Transaction transaction : FinanceApp.getCurrentAccount().getTransactions() )
             {
-                textArea.append(transaction.getDate() + " - " + transaction.getDescription() + " - " + transaction.getAmount() + "\n");
+                // Formatar a data
+                Date date = transaction.getDate();
+                SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+                SimpleDateFormat timeFormatter = new SimpleDateFormat("HH:mm");
+                String formattedDate = dateFormatter.format(date);
+                String formattedTime = timeFormatter.format(date);
+
+                String amount = transaction.getAmount() + " €";
+
+                // Adicionar ao textArea
+                textArea.append(formattedDate + " (" + formattedTime + ") - " + amount + "\n");
             }
         }
     }
