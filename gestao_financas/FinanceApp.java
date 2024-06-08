@@ -553,7 +553,7 @@ class TransactionHistoryPanel extends JPanel
     public TransactionHistoryPanel(FinanceApp app)
     {
         setLayout(new BorderLayout());
-
+        
         textArea = new JTextArea();
         textArea.setEditable(false);
         JScrollPane scrollPane = new JScrollPane(textArea);
@@ -563,7 +563,7 @@ class TransactionHistoryPanel extends JPanel
         backButton.addActionListener(e -> app.showAccountMenu());
         add(backButton, BorderLayout.SOUTH);
     }
-
+    
     public void updateTransactionHistory()
     {
         textArea.setText("");
