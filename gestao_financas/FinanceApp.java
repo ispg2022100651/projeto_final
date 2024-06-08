@@ -481,8 +481,8 @@ class CreateTransactionPanel extends JPanel
             System.out.println(destination);
             if ( isFixed )
             {
-                Transaction expense = new FixedExpense(amount, description, date, category, destination, "Semana", 5);
-                FinanceApp.getCurrentAccount().addTransaction(expense);
+                FixedExpense expense = new FixedExpense(amount, description, date, category, destination, "Semana", 5);
+                FinanceApp.getCurrentAccount().addFixedExpenseTransaction(expense);
             }
             else
             {
@@ -517,8 +517,8 @@ class CreateTransactionPanel extends JPanel
 
             if ( isFixed )
             {
-                Transaction income = new FixedIncome(amount, description, date, category, source, "Semana", 5);
-                FinanceApp.getCurrentAccount().addTransaction(income);
+                FixedIncome income = new FixedIncome(amount, description, date, category, source, "Semana", 5);
+                FinanceApp.getCurrentAccount().addFixedIncomeTransaction(income);
             }
             else
             {
